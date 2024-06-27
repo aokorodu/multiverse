@@ -1,23 +1,32 @@
 import { useState, useRef } from "react";
 import "./App.css";
 import { Canvas } from "@react-three/fiber";
-import { PerspectiveCamera } from "three";
+import { TheThing } from "./components/TheThing";
+import { TheCamera } from "./components/TheCamera";
+import { toSVGPoint } from "./utils/utils";
 
 function App() {
   const stage = useRef(null);
   const roomWidth = 200;
   const roomHeight = 100;
-  const defaultPersonPosition = { x: roomWidth / 2, y: (roomHeight * 3) / 4 };
+  const ballR = 10;
+  const left = ballR;
+  const right = roomWidth - ballR;
+  const top = ballR;
+  const bottom = roomHeight - ballR;
+  const defaultCameraPosition = { x: roomWidth / 2, y: roomHeight * 0.9 };
   const defaultObjectPosition = { x: roomWidth / 2, y: roomHeight / 2 };
 
-  const [personPosition, setPersonPosition] = useState(defaultPersonPosition);
+  const [cameraPosition, setPersonPosition] = useState(defaultCameraPosition);
   const [objectPosition, setObjectPosition] = useState(defaultObjectPosition);
 
   let dragging = false;
+
   const startDrag = () => {
     console.log("startDrag");
     dragging = true;
     stage.current?.addEventListener("mousemove", drag);
+    stage.current?.addEventListener("mouseout", stopDrag);
     stage.current?.addEventListener("mouseup", stopDrag);
   };
 
@@ -30,22 +39,32 @@ function App() {
 
   const drag = (e) => {
     if (!dragging) return;
-    const x = e.clientX;
-    const y = e.clientY;
-    console.log(x, y);
+    updateObjectPositions(e.clientX, e.clientY);
   };
 
-  const getCanvasPosition = (x, y) => {};
+  const updateObjectPositions = (x, y) => {
+    const pt = toSVGPoint(stage.current, x, y);
+    if (pt.x < left) {
+      pt.x = left;
+    } else if (pt.x > right) {
+      pt.x = right;
+    }
 
-  // const CameraHelper = () => {
-  //   const camera = new PerspectiveCamera(90, 2, 1, 5);
+    if (pt.y < top) {
+      pt.y = top;
+    } else if (pt.y > bottom) {
+      pt.y = bottom;
+    }
+    setObjectPosition({ x: pt.x, y: pt.y });
+    console.log(pt.x, pt.y);
+  };
 
-  //   return (
-  //     <group position={[10, 0, 49]}>
-  //       <cameraHelper args={[camera]} />
-  //     </group>
-  //   );
-  // };
+  const getCanvasPosition = (svgX, svgY) => {
+    const xpos = svgX / 10;
+    const zpos = svgY / 10;
+    const obj = { x: xpos, y: 1, z: zpos };
+    return [obj.x, obj.y, obj.z];
+  };
 
   return (
     <>
@@ -74,32 +93,34 @@ function App() {
               stroke={"lightblue"}
               strokeWidth={5}
             />
-            <circle
-              onMouseDown={startDrag}
-              cx={objectPosition.x}
-              cy={objectPosition.y}
-              r={10}
-              fill={"red"}
-              stroke={"black"}
+            <TheCamera x={cameraPosition.x} y={cameraPosition.y} r={ballR} />
+            <TheThing
+              x={objectPosition.x}
+              y={objectPosition.y}
+              r={ballR}
+              mouseDown={startDrag}
             />
           </svg>
         </div>
         <div id="canvasHolder">
           <Canvas
             camera={{
-              position: [10, 0, 29],
+              position: getCanvasPosition(
+                cameraPosition.x,
+                cameraPosition.y * 2
+              ),
               rotation: [0, 0, 0],
-              fov: 20,
+              fov: 40,
               near: 1,
               far: 100,
             }}
           >
             <directionalLight position={[0, 2, 0]} />
-            <mesh position={[personPosition.x / 10, 0, 0]}>
+            <mesh position={[objectPosition.x / 10, 1, objectPosition.y / 10]}>
               <sphereGeometry></sphereGeometry>
               <meshStandardMaterial color={"red"} />
             </mesh>
-            {/* <CameraHelper /> */}
+            <gridHelper args={[200, 100, "grey"]} />
           </Canvas>
         </div>
       </div>
