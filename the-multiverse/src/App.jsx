@@ -10,10 +10,12 @@ function App() {
   const roomWidth = 200;
   const roomHeight = 100;
   const ballR = 10;
-  const left = ballR;
-  const right = roomWidth - ballR;
-  const top = ballR;
-  const bottom = roomHeight - ballR;
+  const bounds = {
+    left: ballR,
+    right: roomWidth - ballR,
+    top: ballR,
+    bottom: roomHeight - ballR,
+  };
   const defaultCameraPosition = { x: roomWidth / 2, y: roomHeight * 0.9 };
   const defaultObjectPosition = { x: roomWidth / 2, y: roomHeight / 2 };
 
@@ -44,16 +46,16 @@ function App() {
 
   const updateObjectPositions = (x, y) => {
     const pt = toSVGPoint(stage.current, x, y);
-    if (pt.x < left) {
-      pt.x = left;
-    } else if (pt.x > right) {
-      pt.x = right;
+    if (pt.x < bounds.left) {
+      pt.x = bounds.left;
+    } else if (pt.x > bounds.right) {
+      pt.x = bounds.right;
     }
 
-    if (pt.y < top) {
-      pt.y = top;
-    } else if (pt.y > bottom) {
-      pt.y = bottom;
+    if (pt.y < bounds.top) {
+      pt.y = bounds.top;
+    } else if (pt.y > bounds.bottom) {
+      pt.y = bounds.bottom;
     }
     setObjectPosition({ x: pt.x, y: pt.y });
     console.log(pt.x, pt.y);
@@ -68,7 +70,7 @@ function App() {
 
   return (
     <>
-      <div>
+      <div id="holder">
         <div id="svgHolder">
           <svg
             ref={stage}
