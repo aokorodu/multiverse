@@ -4,6 +4,7 @@ import { Canvas } from "@react-three/fiber";
 import { TheThing } from "./components/TheThing";
 import { TheCamera } from "./components/TheCamera";
 import { toSVGPoint } from "./utils/utils";
+import { PerspectiveCamera } from "@react-three/drei";
 
 function App() {
   const stage = useRef(null);
@@ -19,13 +20,15 @@ function App() {
   const defaultCameraPosition = { x: roomWidth / 2, y: roomHeight * 0.9 };
   const defaultObjectPosition = { x: roomWidth / 2, y: roomHeight / 2 };
 
-  const [cameraPosition, setPersonPosition] = useState(defaultCameraPosition);
+  const [cameraPosition, setCameraPosition] = useState(defaultCameraPosition);
   const [objectPosition, setObjectPosition] = useState(defaultObjectPosition);
 
   let dragging = false;
+  let draggedItem = "thing" | "camera";
 
-  const startDrag = () => {
+  const startDrag = (item) => {
     console.log("startDrag");
+    draggedItem = item;
     dragging = true;
     stage.current?.addEventListener("mousemove", drag);
     stage.current?.addEventListener("mouseout", stopDrag);
@@ -57,7 +60,9 @@ function App() {
     } else if (pt.y > bounds.bottom) {
       pt.y = bounds.bottom;
     }
-    setObjectPosition({ x: pt.x, y: pt.y });
+    draggedItem === "thing"
+      ? setObjectPosition({ x: pt.x, y: pt.y })
+      : setCameraPosition({ x: pt.x, y: pt.y });
     console.log(pt.x, pt.y);
   };
 
@@ -95,7 +100,12 @@ function App() {
               stroke={"lightblue"}
               strokeWidth={5}
             />
-            <TheCamera x={cameraPosition.x} y={cameraPosition.y} r={ballR} />
+            <TheCamera
+              x={cameraPosition.x}
+              y={cameraPosition.y}
+              r={ballR}
+              mouseDown={startDrag}
+            />
             <TheThing
               x={objectPosition.x}
               y={objectPosition.y}
@@ -105,18 +115,18 @@ function App() {
           </svg>
         </div>
         <div id="canvasHolder">
-          <Canvas
-            camera={{
-              position: getCanvasPosition(
-                cameraPosition.x,
-                cameraPosition.y * 2
-              ),
-              rotation: [0, 0, 0],
-              fov: 40,
-              near: 1,
-              far: 100,
-            }}
-          >
+          <Canvas>
+            <PerspectiveCamera
+              makeDefault
+              fov={60}
+              position={[cameraPosition.x / 10, 1, cameraPosition.y / 10]}
+              onUpdate={(c) => c.updateProjectionMatrix()}
+            >
+              <mesh>
+                <sphereGeometry></sphereGeometry>
+                <meshStandardMaterial color={"blue"} />
+              </mesh>
+            </PerspectiveCamera>
             <directionalLight position={[0, 2, 0]} />
             <mesh position={[objectPosition.x / 10, 1, objectPosition.y / 10]}>
               <sphereGeometry></sphereGeometry>
