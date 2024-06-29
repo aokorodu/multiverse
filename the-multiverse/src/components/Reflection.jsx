@@ -1,5 +1,6 @@
 import { ObjectGraphic } from "./graphics/ObjectGraphic";
 import { CameraGraphic } from "./graphics/CameraGraphic";
+import { Mirrors } from "./graphics/Mirrors";
 
 export const Reflection = ({
   width,
@@ -17,7 +18,7 @@ export const Reflection = ({
     <>
       <g transform={`translate(${x},${ypos})`}>
         <g transform={`scale(1 ${scale} )`}>
-          <rect
+          {/* <rect
             x={0}
             y={0}
             width={width}
@@ -25,15 +26,26 @@ export const Reflection = ({
             fill={"none"}
             stroke={"white"}
             strokeOpacity={0.3}
+          /> */}
+          <Mirrors width={width} height={height} opacity={opacity} />
+          {/* <line
+            x1={0}
+            y1={2.5}
+            x2={width}
+            y2={2.5}
+            stroke={"lightblue"}
+            strokeWidth={5}
+            strokeOpacity={opacity}
           />
           <line
             x1={0}
-            y1={0}
+            y1={height - 2.5}
             x2={width}
-            y2={0}
+            y2={height - 2.5}
             stroke={"lightblue"}
             strokeWidth={5}
-          />
+            strokeOpacity={opacity}
+          /> */}
           <ObjectGraphic x={objectPos.x} y={objectPos.y} opacity={opacity} />
           <CameraGraphic x={cameraPos.x} y={cameraPos.y} opacity={opacity} />
           {/* <circle

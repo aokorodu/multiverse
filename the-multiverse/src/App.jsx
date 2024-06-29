@@ -6,6 +6,7 @@ import { TheCamera } from "./components/TheCamera";
 import { toSVGPoint } from "./utils/utils";
 import { PerspectiveCamera } from "@react-three/drei";
 import { Reflection } from "./components/Reflection";
+import { Mirrors } from "./components/graphics/Mirrors";
 
 function App() {
   const stage = useRef(null);
@@ -76,6 +77,32 @@ function App() {
     return [obj.x, obj.y, obj.z];
   };
 
+  const getReflections = () => {
+    const arr = [];
+    for (let i = -2; i < numOfReflections + 1; i++) {
+      console.log(i);
+      if (i !== 0) {
+        const ypos = i * roomHeight;
+        const flipped = i % 2 == 0 ? false : true;
+        const op = 0.5 / Math.abs(i);
+        arr.push(
+          <Reflection
+            x={0}
+            y={ypos}
+            width={roomWidth}
+            height={roomHeight}
+            flipped={flipped}
+            objectPos={objectPosition}
+            cameraPos={cameraPosition}
+            opacity={op}
+          />
+        );
+      }
+    }
+
+    return arr;
+  };
+
   return (
     <>
       <div id="holder">
@@ -86,63 +113,8 @@ function App() {
             height={svgHeight}
             viewBox={`0 ${roomHeight * -2} ${roomWidth} ${svgHeight}`}
           >
-            <Reflection
-              x={0}
-              y={-2 * roomHeight}
-              width={roomWidth}
-              height={roomHeight}
-              flipped={false}
-              objectPos={objectPosition}
-              cameraPos={cameraPosition}
-              opacity={0.25}
-            />
-            <Reflection
-              x={0}
-              y={-roomHeight}
-              width={roomWidth}
-              height={roomHeight}
-              flipped={true}
-              objectPos={objectPosition}
-              cameraPos={cameraPosition}
-              opacity={0.5}
-            />
-            <Reflection
-              x={0}
-              y={roomHeight}
-              width={roomWidth}
-              height={roomHeight}
-              flipped={true}
-              objectPos={objectPosition}
-              cameraPos={cameraPosition}
-              opacity={0.5}
-            />
-            <Reflection
-              x={0}
-              y={2 * roomHeight}
-              width={roomWidth}
-              height={roomHeight}
-              flipped={false}
-              objectPos={objectPosition}
-              cameraPos={cameraPosition}
-              opacity={0.25}
-            />
-            <rect
-              x={0}
-              y={0}
-              width={roomWidth}
-              height={roomHeight}
-              fill={"none"}
-              stroke={"white"}
-              strokeOpacity={0.3}
-            />
-            <line
-              x1={0}
-              y1={0}
-              x2={500}
-              y2={0}
-              stroke={"lightblue"}
-              strokeWidth={5}
-            />
+            <g>{getReflections()}</g>
+            <Mirrors width={roomWidth} height={roomHeight} />
             <TheCamera
               x={cameraPosition.x}
               y={cameraPosition.y}
