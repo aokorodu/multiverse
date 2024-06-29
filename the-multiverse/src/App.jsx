@@ -36,7 +36,7 @@ function App() {
     draggedItem = item;
     dragging = true;
     stage.current?.addEventListener("mousemove", drag);
-    stage.current?.addEventListener("mouseout", stopDrag);
+    //stage.current?.addEventListener("mouseout", stopDrag);
     stage.current?.addEventListener("mouseup", stopDrag);
   };
 
