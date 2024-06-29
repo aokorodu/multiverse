@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import "./App.css";
 import { Canvas } from "@react-three/fiber";
 import { TheThing } from "./components/TheThing";
@@ -10,6 +10,7 @@ import { Mirrors } from "./components/graphics/Mirrors";
 
 function App() {
   const stage = useRef(null);
+  const lineRef = useRef(null);
   const roomWidth = 200;
   const roomHeight = 100;
   const numOfReflections = 2;
@@ -28,11 +29,33 @@ function App() {
   const [cameraPosition, setCameraPosition] = useState(defaultCameraPosition);
   const [objectPosition, setObjectPosition] = useState(defaultObjectPosition);
 
+  const calculateObjectReflectionPositions = () => {
+    const arr = [];
+    for (let i = -numOfReflections; i < numOfReflections + 1; i++) {
+      if (i != 0) {
+        const flipped = i % 2 == 0 ? false : true;
+        console.log("i:", i, "flipped:", flipped);
+        const direction = i > 0 ? 1 : -1;
+        const x = objectPosition.x;
+        let index = i == -1 ? 0 : Math.abs(i);
+        const dy = flipped
+          ? index * roomHeight - objectPosition.y
+          : index * roomHeight - objectPosition.y;
+        const y = direction * dy;
+        arr.push({ x: x, y: y });
+      }
+    }
+
+    console.log("array[1]: ", arr[1].y);
+
+    return arr;
+  };
+
   let dragging = false;
   let draggedItem = "thing" | "camera";
 
   const startDrag = (item) => {
-    console.log("startDrag");
+    // console.log("startDrag");
     draggedItem = item;
     dragging = true;
     stage.current?.addEventListener("mousemove", drag);
@@ -41,7 +64,7 @@ function App() {
   };
 
   const stopDrag = () => {
-    console.log("stop dragging");
+    // console.log("stop dragging");
     dragging = false;
     stage.current?.removeEventListener("mousemove", drag);
     stage.current?.removeEventListener("mouseup", stopDrag);
@@ -70,17 +93,10 @@ function App() {
       : setCameraPosition({ x: pt.x, y: pt.y });
   };
 
-  const getCanvasPosition = (svgX, svgY) => {
-    const xpos = svgX / 10;
-    const zpos = svgY / 10;
-    const obj = { x: xpos, y: 1, z: zpos };
-    return [obj.x, obj.y, obj.z];
-  };
-
   const getReflections = () => {
     const arr = [];
     for (let i = -2; i < numOfReflections + 1; i++) {
-      console.log(i);
+      // console.log(i);
       if (i !== 0) {
         const ypos = i * roomHeight;
         const flipped = i % 2 == 0 ? false : true;
@@ -103,6 +119,16 @@ function App() {
     return arr;
   };
 
+  useEffect(() => {
+    console.log("useEffect");
+    const arr = calculateObjectReflectionPositions();
+    const line = lineRef.current;
+    line.setAttribute("x1", objectPosition.x);
+    line.setAttribute("y1", objectPosition.y);
+    line.setAttribute("x2", arr[0].x);
+    line.setAttribute("y2", arr[0].y);
+  }, [objectPosition, cameraPosition]);
+
   return (
     <>
       <div id="holder">
@@ -115,6 +141,7 @@ function App() {
           >
             <g>{getReflections()}</g>
             <Mirrors width={roomWidth} height={roomHeight} />
+            <line ref={lineRef} x1={0} y1={0} x2={0} y2={0} stroke={"red"} />
             <TheCamera
               x={cameraPosition.x}
               y={cameraPosition.y}
