@@ -29,28 +29,6 @@ function App() {
   const [cameraPosition, setCameraPosition] = useState(defaultCameraPosition);
   const [objectPosition, setObjectPosition] = useState(defaultObjectPosition);
 
-  const calculateObjectReflectionPositions = () => {
-    const arr = [];
-    for (let i = -numOfReflections; i < numOfReflections + 1; i++) {
-      if (i != 0) {
-        const flipped = i % 2 == 0 ? false : true;
-        console.log("i:", i, "flipped:", flipped);
-        const direction = i > 0 ? 1 : -1;
-        const x = objectPosition.x;
-        let index = i == -1 ? 0 : Math.abs(i);
-        const dy = flipped
-          ? index * roomHeight - objectPosition.y
-          : index * roomHeight - objectPosition.y;
-        const y = direction * dy;
-        arr.push({ x: x, y: y });
-      }
-    }
-
-    console.log("array[1]: ", arr[1].y);
-
-    return arr;
-  };
-
   let dragging = false;
   let draggedItem = "thing" | "camera";
 
@@ -96,9 +74,9 @@ function App() {
   const getReflections = () => {
     const arr = [];
     for (let i = -2; i < numOfReflections + 1; i++) {
-      // console.log(i);
       if (i !== 0) {
         const ypos = i * roomHeight;
+        console.log("ypos:", ypos);
         const flipped = i % 2 == 0 ? false : true;
         const op = 0.5 / Math.abs(i);
         arr.push(
@@ -119,14 +97,33 @@ function App() {
     return arr;
   };
 
+  const getObjectPositions = () => {
+    const arr = [];
+    for (let i = -2; i < numOfReflections + 1; i++) {
+      if (i !== 0) {
+        const startPoint = i * roomHeight;
+        console.log("startPoint:", startPoint);
+        const flipped = i % 2 == 0 ? false : true;
+        //const dy = flipped ? roomHeight - objectPosition.y : objectPosition.y;
+        const ypos = flipped
+          ? startPoint + (roomHeight - objectPosition.y)
+          : startPoint + objectPosition.y;
+        console.log("ypos: ", ypos);
+        arr.push({ x: objectPosition.x, y: ypos });
+      }
+    }
+    return arr;
+  };
+
   useEffect(() => {
     console.log("useEffect");
-    const arr = calculateObjectReflectionPositions();
+    getObjectPositions();
+    const arr = getObjectPositions();
     const line = lineRef.current;
     line.setAttribute("x1", objectPosition.x);
     line.setAttribute("y1", objectPosition.y);
-    line.setAttribute("x2", arr[0].x);
-    line.setAttribute("y2", arr[0].y);
+    line.setAttribute("x2", arr[2].x);
+    line.setAttribute("y2", arr[2].y);
   }, [objectPosition, cameraPosition]);
 
   return (
