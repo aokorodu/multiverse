@@ -10,7 +10,8 @@ import { Mirrors } from "./components/graphics/Mirrors";
 
 function App() {
   const stage = useRef(null);
-  const lineRef = useRef(null);
+  // const lineRef = useRef(null);
+  const lineRefs = useRef([]);
   const roomWidth = 200;
   const roomHeight = 100;
   const numOfReflections = 2;
@@ -32,17 +33,40 @@ function App() {
   let dragging = false;
   let draggedItem = "thing" | "camera";
 
+  const addToRefs = (el) => {
+    if (el && !lineRefs.current.includes(el)) {
+      lineRefs.current.push(el);
+    }
+  };
+
+  const getLines = () => {
+    const num = numOfReflections * 2;
+    const arr = [];
+    for (let i = 0; i < num; i++) {
+      arr.push(
+        <polyline
+          ref={addToRefs}
+          x1={0}
+          y1={0}
+          x2={0}
+          y2={0}
+          stroke={"red"}
+          fill="none"
+        />
+      );
+    }
+
+    return arr;
+  };
+
   const startDrag = (item) => {
-    // console.log("startDrag");
     draggedItem = item;
     dragging = true;
     stage.current?.addEventListener("mousemove", drag);
-    //stage.current?.addEventListener("mouseout", stopDrag);
     stage.current?.addEventListener("mouseup", stopDrag);
   };
 
   const stopDrag = () => {
-    // console.log("stop dragging");
     dragging = false;
     stage.current?.removeEventListener("mousemove", drag);
     stage.current?.removeEventListener("mouseup", stopDrag);
@@ -117,11 +141,22 @@ function App() {
 
   const drawLines = () => {
     const arr = getObjectPositions();
-    const line = lineRef.current;
-    line.setAttribute("x1", objectPosition.x);
-    line.setAttribute("y1", objectPosition.y);
-    line.setAttribute("x2", arr[2].x);
-    line.setAttribute("y2", arr[2].y);
+    const num = lineRefs.current.length;
+    const colors = ["red", "yellow", "blue", "green"];
+    for (let i = 0; i < num; i++) {
+      const pline = lineRefs.current[i];
+      const str = `${objectPosition.x},${objectPosition.y} ${arr[i].x},${arr[i].y} ${cameraPosition.x},${cameraPosition.y}`;
+      pline.setAttribute("points", str);
+      // pline.setAttribute("y1", objectPosition.y);
+      // pline.setAttribute("x2", arr[i].x);
+      // pline.setAttribute("y2", arr[i].y);
+      pline.setAttribute("stroke", colors[i]);
+    }
+    // const line = lineRef.current;
+    // line.setAttribute("x1", objectPosition.x);
+    // line.setAttribute("y1", objectPosition.y);
+    // line.setAttribute("x2", arr[2].x);
+    // line.setAttribute("y2", arr[2].y);
   };
 
   useEffect(() => {
@@ -142,7 +177,8 @@ function App() {
           >
             <g>{getReflections()}</g>
             <Mirrors width={roomWidth} height={roomHeight} />
-            <line ref={lineRef} x1={0} y1={0} x2={0} y2={0} stroke={"red"} />
+            {/* <line ref={lineRef} x1={0} y1={0} x2={0} y2={0} stroke={"red"} /> */}
+            <g>{getLines()}</g>
             <TheCamera
               x={cameraPosition.x}
               y={cameraPosition.y}
