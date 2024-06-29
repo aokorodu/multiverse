@@ -5,11 +5,13 @@ import { TheThing } from "./components/TheThing";
 import { TheCamera } from "./components/TheCamera";
 import { toSVGPoint } from "./utils/utils";
 import { PerspectiveCamera } from "@react-three/drei";
+import { Reflection } from "./components/Reflection";
 
 function App() {
   const stage = useRef(null);
   const roomWidth = 200;
   const roomHeight = 100;
+  const numOfReflections = 4;
   const ballR = 10;
   const bounds = {
     left: ballR,
@@ -63,7 +65,6 @@ function App() {
     draggedItem === "thing"
       ? setObjectPosition({ x: pt.x, y: pt.y })
       : setCameraPosition({ x: pt.x, y: pt.y });
-    console.log(pt.x, pt.y);
   };
 
   const getCanvasPosition = (svgX, svgY) => {
@@ -80,9 +81,18 @@ function App() {
           <svg
             ref={stage}
             width={roomWidth}
-            height={roomHeight}
-            viewBox={`0 0 ${roomWidth} ${roomHeight}`}
+            height={roomHeight * numOfReflections}
+            viewBox={`0 -100 ${roomWidth} ${roomHeight}`}
           >
+            <Reflection
+              x={0}
+              y={-roomHeight}
+              width={roomWidth}
+              height={roomHeight}
+              flipped={true}
+              objectPos={objectPosition}
+              cameraPos={cameraPosition}
+            />
             <rect
               x={0}
               y={0}
@@ -121,17 +131,23 @@ function App() {
               fov={60}
               position={[cameraPosition.x / 10, 1, cameraPosition.y / 10]}
               onUpdate={(c) => c.updateProjectionMatrix()}
-            >
-              <mesh>
-                <sphereGeometry></sphereGeometry>
-                <meshStandardMaterial color={"blue"} />
-              </mesh>
-            </PerspectiveCamera>
-            <directionalLight position={[0, 2, 0]} />
+            ></PerspectiveCamera>
+            <directionalLight position={[0, 1, 0.5]} />
+
             <mesh position={[objectPosition.x / 10, 1, objectPosition.y / 10]}>
               <sphereGeometry></sphereGeometry>
               <meshStandardMaterial color={"red"} />
             </mesh>
+            {/* <mesh
+              position={[
+                objectPosition.x / 10,
+                1,
+                objectPosition.y / 5 - roomHeight / 5,
+              ]}
+            >
+              <sphereGeometry></sphereGeometry>
+              <meshStandardMaterial color={"red"} />
+            </mesh> */}
             <gridHelper args={[200, 100, "grey"]} />
           </Canvas>
         </div>

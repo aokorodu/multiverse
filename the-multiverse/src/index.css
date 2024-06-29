@@ -27,6 +27,10 @@ canvas {
   height: 200px;
 }
 
+svg {
+  /* border: 1px solid white; */
+}
+
 #holder {
   display: flex;
   flex-direction: row;
