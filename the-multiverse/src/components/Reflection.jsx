@@ -9,6 +9,7 @@ export const Reflection = ({
   flipped,
   objectPos,
   cameraPos,
+  opacity = 1,
 }) => {
   const scale = flipped ? -1 : 1;
   const ypos = flipped ? y + height : y;
@@ -33,8 +34,8 @@ export const Reflection = ({
             stroke={"lightblue"}
             strokeWidth={5}
           />
-          <ObjectGraphic x={objectPos.x} y={objectPos.y} opacity={0.5} />
-          <CameraGraphic x={cameraPos.x} y={cameraPos.y} opacity={0.5} />
+          <ObjectGraphic x={objectPos.x} y={objectPos.y} opacity={opacity} />
+          <CameraGraphic x={cameraPos.x} y={cameraPos.y} opacity={opacity} />
           {/* <circle
             cx={objectPos.x}
             cy={objectPos.y}

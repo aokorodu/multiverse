@@ -11,7 +11,9 @@ function App() {
   const stage = useRef(null);
   const roomWidth = 200;
   const roomHeight = 100;
-  const numOfReflections = 4;
+  const numOfReflections = 2;
+  const svgWidth = roomWidth;
+  const svgHeight = roomHeight * numOfReflections * 2 + roomHeight;
   const ballR = 10;
   const bounds = {
     left: ballR,
@@ -80,10 +82,20 @@ function App() {
         <div id="svgHolder">
           <svg
             ref={stage}
-            width={roomWidth}
-            height={roomHeight * numOfReflections}
-            viewBox={`0 -100 ${roomWidth} ${roomHeight}`}
+            width={svgWidth}
+            height={svgHeight}
+            viewBox={`0 ${roomHeight * -2} ${roomWidth} ${svgHeight}`}
           >
+            <Reflection
+              x={0}
+              y={-2 * roomHeight}
+              width={roomWidth}
+              height={roomHeight}
+              flipped={false}
+              objectPos={objectPosition}
+              cameraPos={cameraPosition}
+              opacity={0.25}
+            />
             <Reflection
               x={0}
               y={-roomHeight}
@@ -92,6 +104,27 @@ function App() {
               flipped={true}
               objectPos={objectPosition}
               cameraPos={cameraPosition}
+              opacity={0.5}
+            />
+            <Reflection
+              x={0}
+              y={roomHeight}
+              width={roomWidth}
+              height={roomHeight}
+              flipped={true}
+              objectPos={objectPosition}
+              cameraPos={cameraPosition}
+              opacity={0.5}
+            />
+            <Reflection
+              x={0}
+              y={2 * roomHeight}
+              width={roomWidth}
+              height={roomHeight}
+              flipped={false}
+              objectPos={objectPosition}
+              cameraPos={cameraPosition}
+              opacity={0.25}
             />
             <rect
               x={0}
