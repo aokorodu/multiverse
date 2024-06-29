@@ -115,15 +115,19 @@ function App() {
     return arr;
   };
 
-  useEffect(() => {
-    console.log("useEffect");
-    getObjectPositions();
+  const drawLines = () => {
     const arr = getObjectPositions();
     const line = lineRef.current;
     line.setAttribute("x1", objectPosition.x);
     line.setAttribute("y1", objectPosition.y);
     line.setAttribute("x2", arr[2].x);
     line.setAttribute("y2", arr[2].y);
+  };
+
+  useEffect(() => {
+    console.log("useEffect");
+    getObjectPositions();
+    drawLines();
   }, [objectPosition, cameraPosition]);
 
   return (
