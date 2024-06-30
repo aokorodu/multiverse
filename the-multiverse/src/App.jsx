@@ -10,7 +10,6 @@ import { Mirrors } from "./components/graphics/Mirrors";
 
 function App() {
   const stage = useRef(null);
-  // const lineRef = useRef(null);
   const lineRefs = useRef([]);
   const roomWidth = 200;
   const roomHeight = 100;
@@ -127,7 +126,6 @@ function App() {
       const startPoint = i * roomHeight;
       console.log("startPoint:", startPoint);
       const flipped = i % 2 == 0 ? false : true;
-      //const dy = flipped ? roomHeight - objectPosition.y : objectPosition.y;
       const ypos = flipped
         ? startPoint + (roomHeight - objectPosition.y)
         : startPoint + objectPosition.y;
