@@ -8,6 +8,7 @@ import { PerspectiveCamera } from "@react-three/drei";
 import { Reflection } from "./components/Reflection";
 import { Mirrors } from "./components/graphics/Mirrors";
 import { degToRad } from "three/src/math/MathUtils.js";
+import { DoubleSide } from "three";
 
 function App() {
   const stage = useRef(null);
@@ -285,6 +286,29 @@ function App() {
               <meshStandardMaterial color={"red"} />
             </mesh>
             {getMeshObjects()}
+
+            <mesh
+              position={[10, 2.5, -0.5]}
+              rotation={[0, 0, 0]}
+              scale={[20, 5, 1]}
+            >
+              {/*
+        The thing that gives the mesh its shape
+        In this case the shape is a flat plane
+      */}
+              <planeGeometry args={[1, 1]} />
+              {/*
+        The material gives a mesh its texture or look.
+        In this case, it is just a uniform green
+      */}
+              <meshBasicMaterial
+                color="white"
+                side={DoubleSide}
+                transparent={true}
+                opacity={0.1}
+              />
+            </mesh>
+
             <gridHelper args={[200, 100, "grey"]} />
           </Canvas>
         </div>
