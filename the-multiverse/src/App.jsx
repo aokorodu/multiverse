@@ -148,20 +148,21 @@ function App() {
     }
   };
 
-  const getAngles = () => {
+  const getMirrorReflectionPoints = () => {
     const reflectionPositions = getReflectionPositions();
     const num = reflectionPositions.length;
+    const polylineArray = [];
     console.log("zzz ------------------");
     for (let i = 0; i < num; i++) {
       const ylength = reflectionPositions[i].y - cameraPosition.y;
       const xlength = cameraPosition.x - objectPosition.x;
       const tan = xlength / ylength;
-      console.log("zzz tan:", tan);
+
       const mirrorX = cameraPosition.x - tan * cameraPosition.y;
       const mirrorY = 0;
-      console.log("zzz mirrorX:", mirrorX);
+
       const dx = roomHeight * tan;
-      console.log("zzz dx:", dx);
+
       const ptArray = [
         { x: cameraPosition.x, y: cameraPosition.y },
         { x: mirrorX, y: mirrorY },
@@ -169,7 +170,6 @@ function App() {
       let index = 0;
       let totalDx = Math.abs(ptArray[0].x - ptArray[ptArray.length - 1].x);
       while (totalDx < xlength) {
-        console.log("zzz i:", index);
         let xpos = ptArray[ptArray.length - 1].x - dx;
         let ypos = index % 2 == 0 ? roomHeight : 0;
         if (xpos < objectPosition.x) {
@@ -182,59 +182,20 @@ function App() {
         index++;
       }
 
+      polylineArray.push(ptArray);
       console.log("zzz - array", ptArray);
     }
+    console.log("zzz - array", polylineArray);
+    return polylineArray;
   };
 
-  // const getAngles = () => {
-  //   const arr = [];
-  //   const reflectionPositions = getReflectionPositions();
-  //   const num = reflectionPositions.length;
-  //   console.log("zzz ------------------");
-  //   for (let i = 0; i < num; i++) {
-  //     const ylength = reflectionPositions[i].y - cameraPosition.y;
-  //     const xlength = cameraPosition.x - objectPosition.x;
-  //     const tan = xlength / ylength;
-  //     const radians = Math.atan(tan);
-  //     const angle = (radians * 180) / Math.PI;
-  //     const mirrorAngle = 90 - angle;
-  //     const mirrorRadians = (mirrorAngle * Math.PI) / 180;
-  //     const dx = cameraPosition.y / Math.tan(mirrorRadians);
-  //     console.log("zzz - dx: ", dx);
-
-  //     const array = [];
-  //     array.push({ x: cameraPosition.x, y: cameraPosition.y });
-  //     array.push({ x: cameraPosition.x - dx, y: 0 });
-  //     let totalDx = dx;
-  //     let index = 0;
-  //     while (totalDx < xlength) {
-  //       let xpos = 0;
-  //       let ypos = index % 2 == 0 ? roomHeight : 0;
-  //       console.log("zzz: ", index);
-  //       const nextdx = tan * roomHeight;
-  //       console.log("zzz - nextdx: ", nextdx);
-  //       totalDx += nextdx;
-  //       if (totalDx > xlength) {
-  //         xpos = objectPosition.x;
-  //         ypos = objectPosition.y;
-  //       } else {
-  //         xpos = cameraPosition.x - totalDx;
-  //       }
-  //       const nextPt = { x: xpos, y: ypos };
-  //       array.push(nextPt);
-  //       index++;
-  //     }
-
-  //     console.log("zzz - array", array);
-  //   }
-  //   console.log("arr: ", arr);
-  // };
+  const getMirrorReflectionPolylines = () => {};
 
   useEffect(() => {
     console.log("useEffect");
     getReflectionPositions();
     drawLines();
-    getAngles();
+    getMirrorReflectionPoints();
   }, [objectPosition, cameraPosition]);
 
   return (
