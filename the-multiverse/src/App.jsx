@@ -24,8 +24,8 @@ function App() {
     top: ballR,
     bottom: roomHeight - ballR,
   };
-  const defaultCameraPosition = { x: roomWidth / 2, y: roomHeight * 0.9 };
-  const defaultObjectPosition = { x: roomWidth / 2, y: roomHeight / 2 };
+  const defaultCameraPosition = { x: roomWidth * 0.7, y: roomHeight * 0.8 };
+  const defaultObjectPosition = { x: roomWidth * 0.3, y: roomHeight / 2 };
 
   const [cameraPosition, setCameraPosition] = useState(defaultCameraPosition);
   const [objectPosition, setObjectPosition] = useState(defaultObjectPosition);
@@ -52,6 +52,7 @@ function App() {
           y2={0}
           stroke={"red"}
           fill="none"
+          strokeOpacity={0.25}
         />
       );
     }
@@ -142,7 +143,7 @@ function App() {
   const drawLines = () => {
     const arr = getObjectPositions();
     const num = lineRefs.current.length;
-    const colors = ["red", "yellow", "blue", "green"];
+    const colors = ["red", "yellow", "cyan", "green"];
     for (let i = 0; i < num; i++) {
       const pline = lineRefs.current[i];
       const str = `${objectPosition.x},${objectPosition.y} ${arr[i].x},${arr[i].y} ${cameraPosition.x},${cameraPosition.y}`;
@@ -151,10 +152,35 @@ function App() {
     }
   };
 
+  const getAngles = () => {
+    const arr = [];
+    const objectPositions = getObjectPositions();
+    const num = objectPositions.length;
+    for (let i = 0; i < num; i++) {
+      const ylength = objectPositions[i].y - cameraPosition.y;
+      const xlength = objectPositions[i].x - cameraPosition.x;
+      const hypotenuse = Math.sqrt(xlength * xlength + ylength * ylength);
+      const sin = xlength / hypotenuse;
+      const angle = (Math.asin(sin) * 180) / Math.PI;
+      const mirrorAngle = 90 - Math.abs(angle);
+      console.log("mirrorAngle: ", mirrorAngle);
+      const angleFromCamera = 180 - (mirrorAngle + 90);
+      console.log("angleFromCamera: ", angleFromCamera);
+      const radiansFromCamera = (angleFromCamera * Math.PI) / 180;
+      console.log("radiansFromCamera: ", radiansFromCamera);
+      const distToReflectionPoint =
+        Math.tan(radiansFromCamera) * cameraPosition.y;
+      console.log("distToReflectionPoint: ", distToReflectionPoint);
+      arr.push(angleFromCamera);
+    }
+    console.log("arr: ", arr);
+  };
+
   useEffect(() => {
     console.log("useEffect");
     getObjectPositions();
     drawLines();
+    getAngles();
   }, [objectPosition, cameraPosition]);
 
   return (
