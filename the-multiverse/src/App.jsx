@@ -157,9 +157,8 @@ function App() {
       const ylength = reflectionPositions[i].y - cameraPosition.y;
       const xlength = cameraPosition.x - objectPosition.x;
       const tan = xlength / ylength;
-
-      const mirrorX = cameraPosition.x - tan * cameraPosition.y;
-      const mirrorY = 0;
+      const mirrorX = cameraPosition.x - tan * (roomHeight - cameraPosition.y);
+      const mirrorY = roomHeight;
 
       const dx = roomHeight * tan;
 
@@ -171,7 +170,7 @@ function App() {
       let totalDx = Math.abs(ptArray[0].x - ptArray[ptArray.length - 1].x);
       while (totalDx < xlength) {
         let xpos = ptArray[ptArray.length - 1].x - dx;
-        let ypos = index % 2 == 0 ? roomHeight : 0;
+        let ypos = index % 2 == 0 ? 0 : roomHeight;
         if (xpos < objectPosition.x) {
           xpos = objectPosition.x;
           ypos = objectPosition.y;
@@ -189,13 +188,26 @@ function App() {
     return polylineArray;
   };
 
-  const getMirrorReflectionPolylines = () => {};
+  const getMirrorReflectionPolylines = () => {
+    const arr = [];
+    const reflPoints = getMirrorReflectionPoints();
+    reflPoints.forEach((ptArray) => {
+      let str = "";
+      for (let i = 0; i < ptArray.length; i++) {
+        const pt = ptArray[i];
+        str = `${str} ${pt.x},${pt.y}`;
+      }
+      arr.push(<polyline points={str} stroke={"green"} fill="none" />);
+    });
+    return arr[0];
+  };
 
   useEffect(() => {
     console.log("useEffect");
     getReflectionPositions();
     drawLines();
     getMirrorReflectionPoints();
+    console.log("cameraPosition: ", cameraPosition.y);
   }, [objectPosition, cameraPosition]);
 
   return (
@@ -210,8 +222,8 @@ function App() {
           >
             <g>{getReflections()}</g>
             <Mirrors width={roomWidth} height={roomHeight} />
-            {/* <line ref={lineRef} x1={0} y1={0} x2={0} y2={0} stroke={"red"} /> */}
             <g>{getLines()}</g>
+            <g>{getMirrorReflectionPolylines()}</g>
             <TheCamera
               x={cameraPosition.x}
               y={cameraPosition.y}
