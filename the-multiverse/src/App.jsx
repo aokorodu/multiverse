@@ -3,7 +3,7 @@ import "./App.css";
 import { Canvas } from "@react-three/fiber";
 import { TheThing } from "./components/TheThing";
 import { TheCamera } from "./components/TheCamera";
-import { toSVGPoint } from "./utils/utils";
+import { toSVGPoint, lineColors } from "./utils/utils";
 import { PerspectiveCamera } from "@react-three/drei";
 import { Reflection } from "./components/Reflection";
 import { Mirrors } from "./components/graphics/Mirrors";
@@ -15,23 +15,7 @@ function App() {
   const lineRefs = useRef([]);
   const roomWidth = 200;
   const roomHeight = 100;
-  const lineColors = [
-    "red",
-    "yellow",
-    "cyan",
-    "green",
-    "white",
-    "red",
-    "yellow",
-    "cyan",
-    "green",
-    "white",
-    "red",
-    "yellow",
-    "cyan",
-    "green",
-    "white",
-  ];
+
   const numOfReflections = 4;
   const svgWidth = roomWidth;
   const svgHeight = roomHeight + numOfReflections * roomHeight;
