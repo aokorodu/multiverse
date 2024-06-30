@@ -147,16 +147,8 @@ function App() {
       const pline = lineRefs.current[i];
       const str = `${objectPosition.x},${objectPosition.y} ${arr[i].x},${arr[i].y} ${cameraPosition.x},${cameraPosition.y}`;
       pline.setAttribute("points", str);
-      // pline.setAttribute("y1", objectPosition.y);
-      // pline.setAttribute("x2", arr[i].x);
-      // pline.setAttribute("y2", arr[i].y);
       pline.setAttribute("stroke", colors[i]);
     }
-    // const line = lineRef.current;
-    // line.setAttribute("x1", objectPosition.x);
-    // line.setAttribute("y1", objectPosition.y);
-    // line.setAttribute("x2", arr[2].x);
-    // line.setAttribute("y2", arr[2].y);
   };
 
   useEffect(() => {
