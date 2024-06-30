@@ -15,7 +15,23 @@ function App() {
   const lineRefs = useRef([]);
   const roomWidth = 200;
   const roomHeight = 100;
-  const lineColors = ["red", "yellow", "cyan", "green", "white"];
+  const lineColors = [
+    "red",
+    "yellow",
+    "cyan",
+    "green",
+    "white",
+    "red",
+    "yellow",
+    "cyan",
+    "green",
+    "white",
+    "red",
+    "yellow",
+    "cyan",
+    "green",
+    "white",
+  ];
   const numOfReflections = 4;
   const svgWidth = roomWidth;
   const svgHeight = roomHeight + numOfReflections * roomHeight;
@@ -154,18 +170,6 @@ function App() {
     return arr;
   };
 
-  const drawLines = () => {
-    const arr = getReflectionPositions();
-    const num = lineRefs.current.length;
-
-    for (let i = 0; i < num; i++) {
-      const pline = lineRefs.current[i];
-      const str = `${objectPosition.x},${objectPosition.y} ${arr[i].x},${arr[i].y} ${cameraPosition.x},${cameraPosition.y}`;
-      pline.setAttribute("points", str);
-      pline.setAttribute("stroke", lineColors[i]);
-    }
-  };
-
   const getMirrorReflectionPoints = () => {
     const reflectionPositions = getReflectionPositions();
     const num = reflectionPositions.length;
@@ -208,6 +212,18 @@ function App() {
       polylineArray.push(ptArray);
     }
     return polylineArray;
+  };
+
+  const drawLines = () => {
+    const arr = getReflectionPositions();
+    const num = lineRefs.current.length;
+
+    for (let i = 0; i < num; i++) {
+      const pline = lineRefs.current[i];
+      const str = `${objectPosition.x},${objectPosition.y} ${arr[i].x},${arr[i].y} ${cameraPosition.x},${cameraPosition.y}`;
+      pline.setAttribute("points", str);
+      pline.setAttribute("stroke", lineColors[i]);
+    }
   };
 
   const getMirrorReflectionPolylines = () => {
@@ -292,15 +308,8 @@ function App() {
               rotation={[0, 0, 0]}
               scale={[20, 5, 1]}
             >
-              {/*
-        The thing that gives the mesh its shape
-        In this case the shape is a flat plane
-      */}
               <planeGeometry args={[1, 1]} />
-              {/*
-        The material gives a mesh its texture or look.
-        In this case, it is just a uniform green
-      */}
+
               <meshBasicMaterial
                 color="white"
                 side={DoubleSide}
