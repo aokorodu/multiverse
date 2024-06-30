@@ -14,9 +14,9 @@ function App() {
   const lineRefs = useRef([]);
   const roomWidth = 200;
   const roomHeight = 100;
-  const numOfReflections = 2;
+  const numOfReflections = 4;
   const svgWidth = roomWidth;
-  const svgHeight = roomHeight * numOfReflections * 2 + roomHeight;
+  const svgHeight = roomHeight + numOfReflections * roomHeight;
   const ballR = 10;
   const bounds = {
     left: ballR,
@@ -40,7 +40,7 @@ function App() {
   };
 
   const getLines = () => {
-    const num = numOfReflections * 2;
+    const num = numOfReflections;
     const arr = [];
     for (let i = 0; i < num; i++) {
       arr.push(
@@ -98,50 +98,46 @@ function App() {
 
   const getReflections = () => {
     const arr = [];
-    for (let i = -2; i < numOfReflections + 1; i++) {
-      if (i !== 0) {
-        const ypos = i * roomHeight;
-        console.log("ypos:", ypos);
-        const flipped = i % 2 == 0 ? false : true;
-        const op = 0.5 / Math.abs(i);
-        arr.push(
-          <Reflection
-            x={0}
-            y={ypos}
-            width={roomWidth}
-            height={roomHeight}
-            flipped={flipped}
-            objectPos={objectPosition}
-            cameraPos={cameraPosition}
-            opacity={op}
-          />
-        );
-      }
+    for (let i = 1; i < numOfReflections + 1; i++) {
+      const ypos = i * roomHeight;
+      console.log("ypos:", ypos);
+      const flipped = i % 2 == 0 ? false : true;
+      const op = 0.5 / Math.abs(i);
+      arr.push(
+        <Reflection
+          x={0}
+          y={ypos}
+          width={roomWidth}
+          height={roomHeight}
+          flipped={flipped}
+          objectPos={objectPosition}
+          cameraPos={cameraPosition}
+          opacity={op}
+        />
+      );
     }
 
     return arr;
   };
 
-  const getObjectPositions = () => {
+  const getReflectionPositions = () => {
     const arr = [];
-    for (let i = -2; i < numOfReflections + 1; i++) {
-      if (i !== 0) {
-        const startPoint = i * roomHeight;
-        console.log("startPoint:", startPoint);
-        const flipped = i % 2 == 0 ? false : true;
-        //const dy = flipped ? roomHeight - objectPosition.y : objectPosition.y;
-        const ypos = flipped
-          ? startPoint + (roomHeight - objectPosition.y)
-          : startPoint + objectPosition.y;
-        console.log("ypos: ", ypos);
-        arr.push({ x: objectPosition.x, y: ypos });
-      }
+    for (let i = 1; i < numOfReflections + 1; i++) {
+      const startPoint = i * roomHeight;
+      console.log("startPoint:", startPoint);
+      const flipped = i % 2 == 0 ? false : true;
+      //const dy = flipped ? roomHeight - objectPosition.y : objectPosition.y;
+      const ypos = flipped
+        ? startPoint + (roomHeight - objectPosition.y)
+        : startPoint + objectPosition.y;
+      console.log("ypos: ", ypos);
+      arr.push({ x: objectPosition.x, y: ypos });
     }
     return arr;
   };
 
   const drawLines = () => {
-    const arr = getObjectPositions();
+    const arr = getReflectionPositions();
     const num = lineRefs.current.length;
     const colors = ["red", "yellow", "cyan", "green"];
     for (let i = 0; i < num; i++) {
@@ -153,32 +149,90 @@ function App() {
   };
 
   const getAngles = () => {
-    const arr = [];
-    const objectPositions = getObjectPositions();
-    const num = objectPositions.length;
+    const reflectionPositions = getReflectionPositions();
+    const num = reflectionPositions.length;
+    console.log("zzz ------------------");
     for (let i = 0; i < num; i++) {
-      const ylength = objectPositions[i].y - cameraPosition.y;
-      const xlength = objectPositions[i].x - cameraPosition.x;
-      const hypotenuse = Math.sqrt(xlength * xlength + ylength * ylength);
-      const sin = xlength / hypotenuse;
-      const angle = (Math.asin(sin) * 180) / Math.PI;
-      const mirrorAngle = 90 - Math.abs(angle);
-      console.log("mirrorAngle: ", mirrorAngle);
-      const angleFromCamera = 180 - (mirrorAngle + 90);
-      console.log("angleFromCamera: ", angleFromCamera);
-      const radiansFromCamera = (angleFromCamera * Math.PI) / 180;
-      console.log("radiansFromCamera: ", radiansFromCamera);
-      const distToReflectionPoint =
-        Math.tan(radiansFromCamera) * cameraPosition.y;
-      console.log("distToReflectionPoint: ", distToReflectionPoint);
-      arr.push(angleFromCamera);
+      const ylength = reflectionPositions[i].y - cameraPosition.y;
+      const xlength = cameraPosition.x - objectPosition.x;
+      const tan = xlength / ylength;
+      console.log("zzz tan:", tan);
+      const mirrorX = cameraPosition.x - tan * cameraPosition.y;
+      const mirrorY = 0;
+      console.log("zzz mirrorX:", mirrorX);
+      const dx = roomHeight * tan;
+      console.log("zzz dx:", dx);
+      const ptArray = [
+        { x: cameraPosition.x, y: cameraPosition.y },
+        { x: mirrorX, y: mirrorY },
+      ];
+      let index = 0;
+      let totalDx = Math.abs(ptArray[0].x - ptArray[ptArray.length - 1].x);
+      while (totalDx < xlength) {
+        console.log("zzz i:", index);
+        let xpos = ptArray[ptArray.length - 1].x - dx;
+        let ypos = index % 2 == 0 ? roomHeight : 0;
+        if (xpos < objectPosition.x) {
+          xpos = objectPosition.x;
+          ypos = objectPosition.y;
+        }
+        const nextPt = { x: xpos, y: ypos };
+        ptArray.push(nextPt);
+        totalDx = Math.abs(ptArray[0].x - ptArray[ptArray.length - 1].x);
+        index++;
+      }
+
+      console.log("zzz - array", ptArray);
     }
-    console.log("arr: ", arr);
   };
+
+  // const getAngles = () => {
+  //   const arr = [];
+  //   const reflectionPositions = getReflectionPositions();
+  //   const num = reflectionPositions.length;
+  //   console.log("zzz ------------------");
+  //   for (let i = 0; i < num; i++) {
+  //     const ylength = reflectionPositions[i].y - cameraPosition.y;
+  //     const xlength = cameraPosition.x - objectPosition.x;
+  //     const tan = xlength / ylength;
+  //     const radians = Math.atan(tan);
+  //     const angle = (radians * 180) / Math.PI;
+  //     const mirrorAngle = 90 - angle;
+  //     const mirrorRadians = (mirrorAngle * Math.PI) / 180;
+  //     const dx = cameraPosition.y / Math.tan(mirrorRadians);
+  //     console.log("zzz - dx: ", dx);
+
+  //     const array = [];
+  //     array.push({ x: cameraPosition.x, y: cameraPosition.y });
+  //     array.push({ x: cameraPosition.x - dx, y: 0 });
+  //     let totalDx = dx;
+  //     let index = 0;
+  //     while (totalDx < xlength) {
+  //       let xpos = 0;
+  //       let ypos = index % 2 == 0 ? roomHeight : 0;
+  //       console.log("zzz: ", index);
+  //       const nextdx = tan * roomHeight;
+  //       console.log("zzz - nextdx: ", nextdx);
+  //       totalDx += nextdx;
+  //       if (totalDx > xlength) {
+  //         xpos = objectPosition.x;
+  //         ypos = objectPosition.y;
+  //       } else {
+  //         xpos = cameraPosition.x - totalDx;
+  //       }
+  //       const nextPt = { x: xpos, y: ypos };
+  //       array.push(nextPt);
+  //       index++;
+  //     }
+
+  //     console.log("zzz - array", array);
+  //   }
+  //   console.log("arr: ", arr);
+  // };
 
   useEffect(() => {
     console.log("useEffect");
-    getObjectPositions();
+    getReflectionPositions();
     drawLines();
     getAngles();
   }, [objectPosition, cameraPosition]);
@@ -191,7 +245,7 @@ function App() {
             ref={stage}
             width={svgWidth}
             height={svgHeight}
-            viewBox={`0 ${roomHeight * -2} ${roomWidth} ${svgHeight}`}
+            viewBox={`0 0 ${roomWidth} ${svgHeight}`}
           >
             <g>{getReflections()}</g>
             <Mirrors width={roomWidth} height={roomHeight} />
@@ -216,12 +270,22 @@ function App() {
             <PerspectiveCamera
               makeDefault
               fov={60}
-              position={[cameraPosition.x / 10, 1, cameraPosition.y / 10]}
+              position={[
+                cameraPosition.x / 10,
+                1,
+                (roomHeight - cameraPosition.y) / 10,
+              ]}
               onUpdate={(c) => c.updateProjectionMatrix()}
             ></PerspectiveCamera>
             <directionalLight position={[0, 1, 0.5]} />
 
-            <mesh position={[objectPosition.x / 10, 1, objectPosition.y / 10]}>
+            <mesh
+              position={[
+                objectPosition.x / 10,
+                1,
+                (roomHeight - objectPosition.y) / 10,
+              ]}
+            >
               <sphereGeometry></sphereGeometry>
               <meshStandardMaterial color={"red"} />
             </mesh>
