@@ -14,6 +14,7 @@ function App() {
   const lineRefs = useRef([]);
   const roomWidth = 200;
   const roomHeight = 100;
+  const lineColors = ["red", "yellow", "cyan", "green"];
   const numOfReflections = 4;
   const svgWidth = roomWidth;
   const svgHeight = roomHeight + numOfReflections * roomHeight;
@@ -139,12 +140,12 @@ function App() {
   const drawLines = () => {
     const arr = getReflectionPositions();
     const num = lineRefs.current.length;
-    const colors = ["red", "yellow", "cyan", "green"];
+
     for (let i = 0; i < num; i++) {
       const pline = lineRefs.current[i];
       const str = `${objectPosition.x},${objectPosition.y} ${arr[i].x},${arr[i].y} ${cameraPosition.x},${cameraPosition.y}`;
       pline.setAttribute("points", str);
-      pline.setAttribute("stroke", colors[i]);
+      pline.setAttribute("stroke", lineColors[i]);
     }
   };
 
@@ -191,13 +192,15 @@ function App() {
   const getMirrorReflectionPolylines = () => {
     const arr = [];
     const reflPoints = getMirrorReflectionPoints();
-    reflPoints.forEach((ptArray) => {
+    reflPoints.forEach((ptArray, index) => {
       let str = "";
       for (let i = 0; i < ptArray.length; i++) {
         const pt = ptArray[i];
         str = `${str} ${pt.x},${pt.y}`;
       }
-      arr.push(<polyline points={str} stroke={"green"} fill="none" />);
+      arr.push(
+        <polyline points={str} stroke={lineColors[index]} fill="none" />
+      );
     });
     return arr[0];
   };
