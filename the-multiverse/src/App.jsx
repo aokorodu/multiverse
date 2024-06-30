@@ -153,18 +153,24 @@ function App() {
     const reflectionPositions = getReflectionPositions();
     const num = reflectionPositions.length;
     const polylineArray = [];
-    console.log("zzz ------------------");
     for (let i = 0; i < num; i++) {
-      const ylength = reflectionPositions[i].y - cameraPosition.y;
-      const xlength = cameraPosition.x - objectPosition.x;
+      let startPoint =
+        cameraPosition.x > objectPosition.x ? cameraPosition : objectPosition;
+      let endPoint =
+        startPoint == cameraPosition ? objectPosition : cameraPosition;
+      const ylength = reflectionPositions[i].y - startPoint.y;
+      const xlength = startPoint.x - endPoint.x;
       const tan = xlength / ylength;
-      const mirrorX = cameraPosition.x - tan * (roomHeight - cameraPosition.y);
+      const mirrorX = startPoint.x - tan * (roomHeight - startPoint.y);
       const mirrorY = roomHeight;
 
-      const dx = roomHeight * tan;
+      let dx = roomHeight * tan;
+      if (xlength < 0) {
+        dx *= -1;
+      }
 
       const ptArray = [
-        { x: cameraPosition.x, y: cameraPosition.y },
+        { x: startPoint.x, y: startPoint.y },
         { x: mirrorX, y: mirrorY },
       ];
       let index = 0;
@@ -172,9 +178,9 @@ function App() {
       while (totalDx < xlength) {
         let xpos = ptArray[ptArray.length - 1].x - dx;
         let ypos = index % 2 == 0 ? 0 : roomHeight;
-        if (xpos < objectPosition.x) {
-          xpos = objectPosition.x;
-          ypos = objectPosition.y;
+        if (xpos < endPoint.x) {
+          xpos = endPoint.x;
+          ypos = endPoint.y;
         }
         const nextPt = { x: xpos, y: ypos };
         ptArray.push(nextPt);
@@ -202,7 +208,7 @@ function App() {
         <polyline points={str} stroke={lineColors[index]} fill="none" />
       );
     });
-    return arr[0];
+    return arr[1];
   };
 
   useEffect(() => {
