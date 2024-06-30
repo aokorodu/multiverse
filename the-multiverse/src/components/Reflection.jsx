@@ -1,5 +1,5 @@
 import { ObjectGraphic } from "./graphics/ObjectGraphic";
-import { CameraGraphic } from "./graphics/CameraGraphic";
+// import { CameraGraphic } from "./graphics/CameraGraphic";
 import { Mirrors } from "./graphics/Mirrors";
 
 export const Reflection = ({
@@ -22,7 +22,7 @@ export const Reflection = ({
         <g transform={`scale(1 ${scale} )`}>
           <Mirrors width={width} height={height} opacity={opacity} />
           <ObjectGraphic x={objectPos.x} y={objectPos.y} opacity={opacity} />
-          <CameraGraphic x={cameraPos.x} y={cameraPos.y} opacity={opacity} />
+          {/* <CameraGraphic x={cameraPos.x} y={cameraPos.y} opacity={opacity} /> */}
         </g>
       </g>
     </>

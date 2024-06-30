@@ -7,13 +7,14 @@ import { toSVGPoint } from "./utils/utils";
 import { PerspectiveCamera } from "@react-three/drei";
 import { Reflection } from "./components/Reflection";
 import { Mirrors } from "./components/graphics/Mirrors";
+import { degToRad } from "three/src/math/MathUtils.js";
 
 function App() {
   const stage = useRef(null);
   const lineRefs = useRef([]);
   const roomWidth = 200;
   const roomHeight = 100;
-  const lineColors = ["red", "yellow", "cyan", "green"];
+  const lineColors = ["red", "yellow", "cyan", "green", "white"];
   const numOfReflections = 4;
   const svgWidth = roomWidth;
   const svgHeight = roomHeight + numOfReflections * roomHeight;
@@ -100,9 +101,8 @@ function App() {
     const arr = [];
     for (let i = 1; i < numOfReflections + 1; i++) {
       const ypos = i * roomHeight;
-      console.log("ypos:", ypos);
       const flipped = i % 2 == 0 ? false : true;
-      const op = 0.5 / Math.abs(i);
+      const op = 0.75 / i;
       arr.push(
         <Reflection
           x={0}
@@ -124,12 +124,10 @@ function App() {
     const arr = [];
     for (let i = 1; i < numOfReflections + 1; i++) {
       const startPoint = i * roomHeight;
-      console.log("startPoint:", startPoint);
       const flipped = i % 2 == 0 ? false : true;
       const ypos = flipped
         ? startPoint + (roomHeight - objectPosition.y)
         : startPoint + objectPosition.y;
-      console.log("ypos: ", ypos);
       arr.push({ x: objectPosition.x, y: ypos });
     }
     return arr;
@@ -187,9 +185,7 @@ function App() {
       }
 
       polylineArray.push(ptArray);
-      console.log("zzz - array", ptArray);
     }
-    console.log("zzz - array", polylineArray);
     return polylineArray;
   };
 
@@ -206,15 +202,13 @@ function App() {
         <polyline points={str} stroke={lineColors[index]} fill="none" />
       );
     });
-    return arr[1];
+    return arr[3];
   };
 
   useEffect(() => {
-    console.log("useEffect");
     getReflectionPositions();
     drawLines();
     getMirrorReflectionPoints();
-    console.log("cameraPosition: ", cameraPosition.y);
   }, [objectPosition, cameraPosition]);
 
   return (
@@ -265,8 +259,9 @@ function App() {
                 1,
                 (roomHeight - objectPosition.y) / 10,
               ]}
+              rotation={[Math.PI / 2, 0, 0]}
             >
-              <sphereGeometry></sphereGeometry>
+              <coneGeometry rotateX={"50deg"}></coneGeometry>
               <meshStandardMaterial color={"red"} />
             </mesh>
             {/* <mesh

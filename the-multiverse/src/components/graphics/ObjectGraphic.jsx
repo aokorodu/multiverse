@@ -1,12 +1,13 @@
 export const ObjectGraphic = ({ x, y, opacity = 1 }) => {
+  const r = 10;
   return (
-    <circle
-      cx={x}
-      cy={y}
-      r={10}
-      fill={"red"}
-      stroke={"black"}
-      opacity={opacity}
-    />
+    <>
+      <polygon
+        points={`${x},${y - r} ${x + r},${y + r} ${x - r},${y + r} `}
+        fill={"red"}
+        stroke={"black"}
+        opacity={opacity}
+      />
+    </>
   );
 };

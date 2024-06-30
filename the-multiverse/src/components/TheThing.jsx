@@ -1,7 +1,9 @@
+import { ObjectGraphic } from "./graphics/ObjectGraphic";
+
 export const TheThing = ({ x, y, r = 20, mouseDown }) => {
   return (
     <>
-      <circle
+      {/* <circle
         onMouseDown={() => {
           mouseDown("thing");
         }}
@@ -10,7 +12,14 @@ export const TheThing = ({ x, y, r = 20, mouseDown }) => {
         r={r}
         fill={"red"}
         stroke={"black"}
-      />
+      /> */}
+      <g
+        onMouseDown={() => {
+          mouseDown("thing");
+        }}
+      >
+        <ObjectGraphic x={x} y={y} opacity={1} />
+      </g>
     </>
   );
 };
