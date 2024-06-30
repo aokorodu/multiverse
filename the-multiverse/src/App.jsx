@@ -133,6 +133,26 @@ function App() {
     return arr;
   };
 
+  const getMeshObjects = () => {
+    const arr = [];
+    const positionArray = getReflectionPositions();
+    positionArray.forEach((pos, index) => {
+      const rotation =
+        index % 2 == 0 ? [Math.PI * 1.5, 0, 0] : [Math.PI * 0.5, 0, 0];
+      arr.push(
+        <mesh
+          position={[pos.x / 10, 1, (roomHeight - pos.y) / 10]}
+          rotation={rotation}
+        >
+          <coneGeometry></coneGeometry>
+          <meshStandardMaterial color={"red"} />
+        </mesh>
+      );
+    });
+
+    return arr;
+  };
+
   const drawLines = () => {
     const arr = getReflectionPositions();
     const num = lineRefs.current.length;
@@ -243,7 +263,7 @@ function App() {
           <Canvas>
             <PerspectiveCamera
               makeDefault
-              fov={60}
+              fov={40}
               position={[
                 cameraPosition.x / 10,
                 1,
@@ -261,19 +281,10 @@ function App() {
               ]}
               rotation={[Math.PI / 2, 0, 0]}
             >
-              <coneGeometry rotateX={"50deg"}></coneGeometry>
+              <coneGeometry></coneGeometry>
               <meshStandardMaterial color={"red"} />
             </mesh>
-            {/* <mesh
-              position={[
-                objectPosition.x / 10,
-                1,
-                objectPosition.y / 5 - roomHeight / 5,
-              ]}
-            >
-              <sphereGeometry></sphereGeometry>
-              <meshStandardMaterial color={"red"} />
-            </mesh> */}
+            {getMeshObjects()}
             <gridHelper args={[200, 100, "grey"]} />
           </Canvas>
         </div>
