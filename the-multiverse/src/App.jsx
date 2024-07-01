@@ -14,6 +14,7 @@ import { THREECamera } from "./components/THREECamera";
 import { MirrorMesh } from "./components/graphics/MirrorMesh";
 import { AngleGraphic } from "./components/AngleGraphic";
 import { AngleInfo } from "./components/AngleInfo";
+import { DistanceInfo } from "./components/DistanceInfo";
 
 function App() {
   const stage = useRef(null);
@@ -316,6 +317,25 @@ function App() {
     return <AngleInfo degrees={degrees} />;
   };
 
+  const getDistanceValue = () => {
+    const pt = getReflectionPositions()[activeReflection];
+    const length = Math.abs(objectPosition.y - pt.y);
+    const width = Math.abs(cameraPosition.x - objectPosition.x);
+    const hyp = Math.sqrt(length * length + width * width);
+
+    return hyp;
+  };
+
+  const getDistanceInfo = () => {
+    const dist = getDistanceValue();
+
+    return (
+      <>
+        <DistanceInfo distance={dist} />
+      </>
+    );
+  };
+
   useEffect(() => {
     getReflectionPositions();
     drawLines();
@@ -370,6 +390,7 @@ function App() {
             </Canvas>
           </div>
           {getAngleInfo()}
+          {getDistanceInfo()}
         </div>
       </div>
     </>
