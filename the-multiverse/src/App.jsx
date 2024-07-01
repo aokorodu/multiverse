@@ -20,7 +20,7 @@ function App() {
   const roomWidth = 200;
   const roomHeight = 100;
 
-  let activeLine = null;
+  let activeReflection = null;
 
   const numOfReflections = 10;
   const svgWidth = roomWidth;
@@ -105,10 +105,11 @@ function App() {
 
   const getReflections = () => {
     const arr = [];
+    let reflectionOpacity = 0.5;
     for (let i = 1; i < numOfReflections + 1; i++) {
       const ypos = i * roomHeight;
       const flipped = i % 2 == 0 ? false : true;
-      const op = 0.75 / i;
+      reflectionOpacity *= 0.9;
       arr.push(
         <Reflection
           x={0}
@@ -118,7 +119,8 @@ function App() {
           flipped={flipped}
           objectPos={objectPosition}
           cameraPos={cameraPosition}
-          opacity={op}
+          opacity={reflectionOpacity}
+          onClick={mirrorClick}
         />
       );
     }
@@ -254,8 +256,8 @@ function App() {
   };
 
   const switchOnLines = (n) => {
-    if (n == activeLine) return;
-    activeLine = n;
+    if (n == activeReflection) return;
+    activeReflection = n;
     const num = numOfReflections;
     for (let i = 0; i < num; i++) {
       const pl = polyLinerefs.current[i];
@@ -270,12 +272,20 @@ function App() {
     }
   };
 
+  const mirrorClick = (index) => {
+    console.log(index);
+    switchOnLines(index - 1);
+  };
+
   useEffect(() => {
     getReflectionPositions();
     drawLines();
     getMirrorReflectionPoints();
-    switchOnLines(5);
   }, [objectPosition, cameraPosition]);
+
+  useEffect(() => {
+    switchOnLines(0);
+  }, []);
 
   return (
     <>
