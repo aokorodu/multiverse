@@ -21,7 +21,7 @@ function App() {
 
   let activeLine = null;
 
-  const numOfReflections = 4;
+  const numOfReflections = 10;
   const svgWidth = roomWidth;
   const svgHeight = roomHeight + numOfReflections * roomHeight;
   const ballR = 10;
@@ -245,7 +245,7 @@ function App() {
           points={str}
           stroke={lineColors[index]}
           fill="none"
-          strokeWidth={2}
+          strokeWidth={1}
         />
       );
     });
@@ -273,7 +273,7 @@ function App() {
     getReflectionPositions();
     drawLines();
     getMirrorReflectionPoints();
-    switchOnLines(2);
+    switchOnLines(5);
   }, [objectPosition, cameraPosition]);
 
   return (
@@ -282,8 +282,8 @@ function App() {
         <div id="svgHolder">
           <svg
             ref={stage}
-            width={svgWidth}
-            height={svgHeight}
+            width={"100%"}
+            height={"100%"}
             viewBox={`0 0 ${roomWidth} ${svgHeight}`}
           >
             <g>{getReflections()}</g>
@@ -317,7 +317,6 @@ function App() {
               onUpdate={(c) => c.updateProjectionMatrix()}
             ></PerspectiveCamera>
             <directionalLight position={[0, 1, 0.5]} />
-
             <mesh
               position={[
                 objectPosition.x / 10,
@@ -333,7 +332,7 @@ function App() {
 
             {getMeshMirrors()}
 
-            <gridHelper args={[200, 100]} />
+            <gridHelper args={[200, 100, "#383838", "#383838"]} />
             {/* <OrbitControls /> */}
           </Canvas>
         </div>
