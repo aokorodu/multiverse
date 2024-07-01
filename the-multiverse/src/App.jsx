@@ -15,8 +15,11 @@ import { MirrorMesh } from "./components/graphics/MirrorMesh";
 function App() {
   const stage = useRef(null);
   const lineRefs = useRef([]);
+  const polyLinerefs = useRef([]);
   const roomWidth = 200;
   const roomHeight = 100;
+
+  let activeLine = null;
 
   const numOfReflections = 4;
   const svgWidth = roomWidth;
@@ -37,7 +40,7 @@ function App() {
   let dragging = false;
   let draggedItem = "thing" | "camera";
 
-  const addToRefs = (el) => {
+  const addToLineRefs = (el) => {
     if (el && !lineRefs.current.includes(el)) {
       lineRefs.current.push(el);
     }
@@ -49,14 +52,13 @@ function App() {
     for (let i = 0; i < num; i++) {
       arr.push(
         <polyline
-          ref={addToRefs}
+          ref={addToLineRefs}
           x1={0}
           y1={0}
           x2={0}
           y2={0}
           stroke={"red"}
           fill="none"
-          strokeOpacity={0.25}
         />
       );
     }
@@ -222,6 +224,12 @@ function App() {
     }
   };
 
+  const addToPolylineRefs = (el) => {
+    if (el && !polyLinerefs.current.includes(el)) {
+      polyLinerefs.current.push(el);
+    }
+  };
+
   const getMirrorReflectionPolylines = () => {
     const arr = [];
     const reflPoints = getMirrorReflectionPoints();
@@ -232,16 +240,40 @@ function App() {
         str = `${str} ${pt.x},${pt.y}`;
       }
       arr.push(
-        <polyline points={str} stroke={lineColors[index]} fill="none" />
+        <polyline
+          ref={addToPolylineRefs}
+          points={str}
+          stroke={lineColors[index]}
+          fill="none"
+          strokeWidth={2}
+        />
       );
     });
-    return arr[0];
+    return arr;
+  };
+
+  const switchOnLines = (n) => {
+    if (n == activeLine) return;
+    activeLine = n;
+    const num = numOfReflections;
+    for (let i = 0; i < num; i++) {
+      const pl = polyLinerefs.current[i];
+      const lr = lineRefs.current[i];
+      if (i !== n) {
+        pl.setAttribute("opacity", 0);
+        lr.setAttribute("stroke-opacity", 0);
+      } else {
+        pl.setAttribute("opacity", 1);
+        lr.setAttribute("stroke-opacity", 0.5);
+      }
+    }
   };
 
   useEffect(() => {
     getReflectionPositions();
     drawLines();
     getMirrorReflectionPoints();
+    switchOnLines(2);
   }, [objectPosition, cameraPosition]);
 
   return (
