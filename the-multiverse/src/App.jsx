@@ -34,7 +34,6 @@ function App() {
   const defaultCameraPosition = { x: roomWidth * 0.7, y: roomHeight * 0.8 };
   const defaultObjectPosition = { x: roomWidth * 0.3, y: roomHeight / 2 };
   const [activeReflection, setActiveReflection] = useState(1);
-
   const [cameraPosition, setCameraPosition] = useState(defaultCameraPosition);
   const [objectPosition, setObjectPosition] = useState(defaultObjectPosition);
 
@@ -171,50 +170,6 @@ function App() {
     return arr;
   };
 
-  // const getMirrorReflectionPoints = () => {
-  //   const reflectionPositions = getReflectionPositions();
-  //   const num = reflectionPositions.length;
-  //   const polylineArray = [];
-  //   for (let i = 0; i < num; i++) {
-  //     let startPoint =
-  //       cameraPosition.x > objectPosition.x ? cameraPosition : objectPosition;
-  //     let endPoint =
-  //       startPoint == cameraPosition ? objectPosition : cameraPosition;
-  //     const ylength = reflectionPositions[i].y - startPoint.y;
-  //     const xlength = startPoint.x - endPoint.x;
-  //     const tan = xlength / ylength;
-  //     const mirrorX = startPoint.x - tan * (roomHeight - startPoint.y);
-  //     const mirrorY = roomHeight;
-
-  //     let dx = roomHeight * tan;
-  //     if (xlength < 0) {
-  //       dx *= -1;
-  //     }
-
-  //     const ptArray = [
-  //       { x: startPoint.x, y: startPoint.y },
-  //       { x: mirrorX, y: mirrorY },
-  //     ];
-  //     let index = 0;
-  //     let totalDx = Math.abs(ptArray[0].x - ptArray[ptArray.length - 1].x);
-  //     while (totalDx < xlength) {
-  //       let xpos = ptArray[ptArray.length - 1].x - dx;
-  //       let ypos = index % 2 == 0 ? 0 : roomHeight;
-  //       if (xpos < endPoint.x) {
-  //         xpos = endPoint.x;
-  //         ypos = endPoint.y;
-  //       }
-  //       const nextPt = { x: xpos, y: ypos };
-  //       ptArray.push(nextPt);
-  //       totalDx = Math.abs(ptArray[0].x - ptArray[ptArray.length - 1].x);
-  //       index++;
-  //     }
-
-  //     polylineArray.push(ptArray);
-  //   }
-  //   return polylineArray;
-  // };
-
   const getMirrorReflectionPoints = () => {
     const reflectionPositions = getReflectionPositions();
     const num = reflectionPositions.length;
@@ -320,7 +275,7 @@ function App() {
     switchOnLines(index - 1);
   };
 
-  const getAngle = () => {
+  const getAngleValue = () => {
     const ind = activeReflection == null ? 0 : activeReflection;
     const ptArray = getMirrorReflectionPoints()[ind];
     const pt = ptArray[1];
@@ -332,8 +287,16 @@ function App() {
     const angle = Math.atan(h / l);
     const degrees = Math.round((angle * 180) / Math.PI);
 
+    return { degrees: degrees, point: pt };
+  };
+
+  const getAngle = () => {
+    const { degrees, point } = getAngleValue();
+
     return (
-      <g transform={`translate(${Math.round(pt.x)}, ${Math.round(pt.y)})`}>
+      <g
+        transform={`translate(${Math.round(point.x)}, ${Math.round(point.y)})`}
+      >
         <text
           transform="scale(1 -1)"
           x={0}
@@ -348,7 +311,6 @@ function App() {
     getReflectionPositions();
     drawLines();
     getMirrorReflectionPoints();
-    getAngle();
   }, [objectPosition, cameraPosition]);
 
   useEffect(() => {
