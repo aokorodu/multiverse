@@ -13,6 +13,7 @@ import { ConeObject } from "./components/graphics/ConeObject";
 import { THREECamera } from "./components/THREECamera";
 import { MirrorMesh } from "./components/graphics/MirrorMesh";
 import { AngleGraphic } from "./components/AngleGraphic";
+import { AngleInfo } from "./components/AngleInfo";
 
 function App() {
   const stage = useRef(null);
@@ -299,12 +300,20 @@ function App() {
       >
         <text
           transform="scale(1 -1)"
-          x={0}
-          y={0}
+          x={20}
+          y={5}
           stroke="white"
+          textAnchor="middle"
+          dominantBaseline={"hanging"}
         >{`${degrees}`}</text>
       </g>
     );
+  };
+
+  const getAngleInfo = () => {
+    const { degrees } = getAngleValue();
+
+    return <AngleInfo degrees={degrees} />;
   };
 
   useEffect(() => {
@@ -360,7 +369,7 @@ function App() {
               {/* <OrbitControls /> */}
             </Canvas>
           </div>
-          {/* <AngleGraphic /> */}
+          {getAngleInfo()}
         </div>
       </div>
     </>
