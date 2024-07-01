@@ -282,12 +282,21 @@ function App() {
     const ptArray = getMirrorReflectionPoints()[ind];
     const pt = ptArray[1];
 
-    console.log("point: ", pt);
+    const pt0 = ptArray[0];
+    const pt1 = { x: pt0.x, y: roomHeight };
+    const h = (pt1.y = pt0.y);
+    const l = Math.abs(pt.x - pt1.x);
+    const angle = Math.atan(h / l);
+    const degrees = 90 - Math.round((angle * 180) / Math.PI);
+
     return (
       <g transform={`translate(${Math.round(pt.x)}, ${Math.round(pt.y)})`}>
-        <text transform="scale(1 -1)" x={0} y={0} stroke="white">{`${Math.round(
-          pt.x
-        )}, ${Math.round(pt.y)}`}</text>
+        <text
+          transform="scale(1 -1)"
+          x={0}
+          y={0}
+          stroke="white"
+        >{`${degrees}`}</text>
       </g>
     );
   };
