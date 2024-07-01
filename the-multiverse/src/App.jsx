@@ -12,6 +12,7 @@ import { OrbitControls } from "@react-three/drei";
 import { ConeObject } from "./components/graphics/ConeObject";
 import { THREECamera } from "./components/THREECamera";
 import { MirrorMesh } from "./components/graphics/MirrorMesh";
+import { AngleGraphic } from "./components/AngleGraphic";
 
 function App() {
   const stage = useRef(null);
@@ -19,8 +20,6 @@ function App() {
   const polyLinerefs = useRef([]);
   const roomWidth = 200;
   const roomHeight = 100;
-
-  let activeReflection = null;
 
   const numOfReflections = 10;
   const svgWidth = roomWidth;
@@ -34,6 +33,7 @@ function App() {
   };
   const defaultCameraPosition = { x: roomWidth * 0.7, y: roomHeight * 0.8 };
   const defaultObjectPosition = { x: roomWidth * 0.3, y: roomHeight / 2 };
+  const [activeReflection, setActiveReflection] = useState(1);
 
   const [cameraPosition, setCameraPosition] = useState(defaultCameraPosition);
   const [objectPosition, setObjectPosition] = useState(defaultObjectPosition);
@@ -257,7 +257,7 @@ function App() {
 
   const switchOnLines = (n) => {
     if (n == activeReflection) return;
-    activeReflection = n;
+    setActiveReflection(n);
     const num = numOfReflections;
     for (let i = 0; i < num; i++) {
       const pl = polyLinerefs.current[i];
@@ -277,10 +277,26 @@ function App() {
     switchOnLines(index - 1);
   };
 
+  const getAngle = () => {
+    const ind = activeReflection == null ? 0 : activeReflection;
+    const ptArray = getMirrorReflectionPoints()[ind];
+    const pt = ptArray[1];
+
+    console.log("point: ", pt);
+    return (
+      <g transform={`translate(${Math.round(pt.x)}, ${Math.round(pt.y)})`}>
+        <text transform="scale(1 -1)" x={0} y={0} stroke="white">{`${Math.round(
+          pt.x
+        )}, ${Math.round(pt.y)}`}</text>
+      </g>
+    );
+  };
+
   useEffect(() => {
     getReflectionPositions();
     drawLines();
     getMirrorReflectionPoints();
+    getAngle();
   }, [objectPosition, cameraPosition]);
 
   useEffect(() => {
@@ -313,20 +329,24 @@ function App() {
               r={ballR}
               mouseDown={startDrag}
             />
+            {getAngle()}
           </svg>
         </div>
-        <div id="canvasHolder">
-          <Canvas>
-            <THREECamera position={cameraPosition} roomHeight={roomHeight} />
-            <directionalLight position={[0, 1, 0.5]} />
-            <ConeObject position={objectPosition} roomHeight={roomHeight} />
-            {getMeshObjects()}
+        <div id="contentHolder">
+          <div id="canvasHolder">
+            <Canvas>
+              <THREECamera position={cameraPosition} roomHeight={roomHeight} />
+              <directionalLight position={[0, 1, 0.5]} />
+              <ConeObject position={objectPosition} roomHeight={roomHeight} />
+              {getMeshObjects()}
 
-            {getMeshMirrors()}
+              {getMeshMirrors()}
 
-            <gridHelper args={[200, 100, "#383838", "#383838"]} />
-            {/* <OrbitControls /> */}
-          </Canvas>
+              <gridHelper args={[200, 100, "#383838", "#383838"]} />
+              {/* <OrbitControls /> */}
+            </Canvas>
+          </div>
+          {/* <AngleGraphic /> */}
         </div>
       </div>
     </>
