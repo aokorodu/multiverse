@@ -8,7 +8,9 @@ import { PerspectiveCamera } from "@react-three/drei";
 import { Reflection } from "./components/Reflection";
 import { Mirrors } from "./components/graphics/Mirrors";
 import { degToRad } from "three/src/math/MathUtils.js";
-import { DoubleSide } from "three";
+import { OrbitControls } from "@react-three/drei";
+
+import { MirrorMesh } from "./components/graphics/MirrorMesh";
 
 function App() {
   const stage = useRef(null);
@@ -154,6 +156,16 @@ function App() {
     return arr;
   };
 
+  const getMeshMirrors = () => {
+    const arr = [];
+    for (let i = 0; i < numOfReflections; i++) {
+      const zpos = i * -20;
+      arr.push(<MirrorMesh z={zpos} />);
+    }
+
+    return arr;
+  };
+
   const getMirrorReflectionPoints = () => {
     const reflectionPositions = getReflectionPositions();
     const num = reflectionPositions.length;
@@ -223,7 +235,7 @@ function App() {
         <polyline points={str} stroke={lineColors[index]} fill="none" />
       );
     });
-    return arr[3];
+    return arr[0];
   };
 
   useEffect(() => {
@@ -264,10 +276,10 @@ function App() {
           <Canvas>
             <PerspectiveCamera
               makeDefault
-              fov={40}
+              fov={55}
               position={[
                 cameraPosition.x / 10,
-                1,
+                2.5,
                 (roomHeight - cameraPosition.y) / 10,
               ]}
               onUpdate={(c) => c.updateProjectionMatrix()}
@@ -287,22 +299,10 @@ function App() {
             </mesh>
             {getMeshObjects()}
 
-            <mesh
-              position={[10, 2.5, -0.5]}
-              rotation={[0, 0, 0]}
-              scale={[20, 5, 1]}
-            >
-              <planeGeometry args={[1, 1]} />
+            {getMeshMirrors()}
 
-              <meshBasicMaterial
-                color="white"
-                side={DoubleSide}
-                transparent={true}
-                opacity={0.1}
-              />
-            </mesh>
-
-            <gridHelper args={[200, 100, "grey"]} />
+            <gridHelper args={[200, 100]} />
+            {/* <OrbitControls /> */}
           </Canvas>
         </div>
       </div>
