@@ -171,25 +171,66 @@ function App() {
     return arr;
   };
 
+  // const getMirrorReflectionPoints = () => {
+  //   const reflectionPositions = getReflectionPositions();
+  //   const num = reflectionPositions.length;
+  //   const polylineArray = [];
+  //   for (let i = 0; i < num; i++) {
+  //     let startPoint =
+  //       cameraPosition.x > objectPosition.x ? cameraPosition : objectPosition;
+  //     let endPoint =
+  //       startPoint == cameraPosition ? objectPosition : cameraPosition;
+  //     const ylength = reflectionPositions[i].y - startPoint.y;
+  //     const xlength = startPoint.x - endPoint.x;
+  //     const tan = xlength / ylength;
+  //     const mirrorX = startPoint.x - tan * (roomHeight - startPoint.y);
+  //     const mirrorY = roomHeight;
+
+  //     let dx = roomHeight * tan;
+  //     if (xlength < 0) {
+  //       dx *= -1;
+  //     }
+
+  //     const ptArray = [
+  //       { x: startPoint.x, y: startPoint.y },
+  //       { x: mirrorX, y: mirrorY },
+  //     ];
+  //     let index = 0;
+  //     let totalDx = Math.abs(ptArray[0].x - ptArray[ptArray.length - 1].x);
+  //     while (totalDx < xlength) {
+  //       let xpos = ptArray[ptArray.length - 1].x - dx;
+  //       let ypos = index % 2 == 0 ? 0 : roomHeight;
+  //       if (xpos < endPoint.x) {
+  //         xpos = endPoint.x;
+  //         ypos = endPoint.y;
+  //       }
+  //       const nextPt = { x: xpos, y: ypos };
+  //       ptArray.push(nextPt);
+  //       totalDx = Math.abs(ptArray[0].x - ptArray[ptArray.length - 1].x);
+  //       index++;
+  //     }
+
+  //     polylineArray.push(ptArray);
+  //   }
+  //   return polylineArray;
+  // };
+
   const getMirrorReflectionPoints = () => {
     const reflectionPositions = getReflectionPositions();
     const num = reflectionPositions.length;
     const polylineArray = [];
     for (let i = 0; i < num; i++) {
-      let startPoint =
-        cameraPosition.x > objectPosition.x ? cameraPosition : objectPosition;
-      let endPoint =
-        startPoint == cameraPosition ? objectPosition : cameraPosition;
-      const ylength = reflectionPositions[i].y - startPoint.y;
-      const xlength = startPoint.x - endPoint.x;
+      let startPoint = cameraPosition;
+      let endPoint = objectPosition;
+
+      const dir = startPoint.x > endPoint.x ? -1 : 1;
+      const ylength = Math.abs(reflectionPositions[i].y - startPoint.y);
+      const xlength = Math.abs(startPoint.x - endPoint.x);
       const tan = xlength / ylength;
-      const mirrorX = startPoint.x - tan * (roomHeight - startPoint.y);
+      const mirrorX = startPoint.x + dir * tan * (roomHeight - startPoint.y);
       const mirrorY = roomHeight;
 
-      let dx = roomHeight * tan;
-      if (xlength < 0) {
-        dx *= -1;
-      }
+      let dx = dir * roomHeight * tan;
 
       const ptArray = [
         { x: startPoint.x, y: startPoint.y },
@@ -197,10 +238,12 @@ function App() {
       ];
       let index = 0;
       let totalDx = Math.abs(ptArray[0].x - ptArray[ptArray.length - 1].x);
+      console.log("totalDx < xlength?", totalDx, xlength);
       while (totalDx < xlength) {
-        let xpos = ptArray[ptArray.length - 1].x - dx;
+        let xpos = ptArray[ptArray.length - 1].x + dx;
+        const newDist = Math.abs(xpos - ptArray[0].x);
         let ypos = index % 2 == 0 ? 0 : roomHeight;
-        if (xpos < endPoint.x) {
+        if (newDist >= xlength) {
           xpos = endPoint.x;
           ypos = endPoint.y;
         }
@@ -284,10 +327,10 @@ function App() {
 
     const pt0 = ptArray[0];
     const pt1 = { x: pt0.x, y: roomHeight };
-    const h = (pt1.y = pt0.y);
+    const h = pt1.y - pt0.y;
     const l = Math.abs(pt.x - pt1.x);
     const angle = Math.atan(h / l);
-    const degrees = 90 - Math.round((angle * 180) / Math.PI);
+    const degrees = Math.round((angle * 180) / Math.PI);
 
     return (
       <g transform={`translate(${Math.round(pt.x)}, ${Math.round(pt.y)})`}>
