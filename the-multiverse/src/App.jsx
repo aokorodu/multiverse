@@ -4,11 +4,8 @@ import { Canvas } from "@react-three/fiber";
 import { TheThing } from "./components/TheThing";
 import { CameraSVG } from "./components/CameraSVG";
 import { toSVGPoint, lineColors } from "./utils/utils";
-import { PerspectiveCamera } from "@react-three/drei";
 import { Reflection } from "./components/Reflection";
 import { Mirrors } from "./components/graphics/Mirrors";
-import { degToRad } from "three/src/math/MathUtils.js";
-import { OrbitControls } from "@react-three/drei";
 import { ConeObject } from "./components/graphics/ConeObject";
 import { THREECamera } from "./components/THREECamera";
 import { MirrorMesh } from "./components/graphics/MirrorMesh";
@@ -24,7 +21,6 @@ function App() {
   const roomHeight = 100;
 
   const numOfReflections = 8;
-  const svgWidth = roomWidth;
   const svgHeight = roomHeight + numOfReflections * roomHeight;
   const ballR = 10;
   const bounds = {
