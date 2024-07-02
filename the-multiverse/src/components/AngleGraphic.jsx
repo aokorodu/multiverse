@@ -7,13 +7,14 @@ export const AngleGraphic = ({ point, angle }) => {
         <text
           transform="scale(1 -1)"
           fontSize={10}
+          fontWeight={900}
           x={30}
           y={7}
           fill="white"
           stroke={"none"}
           textAnchor="middle"
           dominantBaseline={"hanging"}
-        >{`${angle}`}</text>
+        >{`${angle}°`}</text>
         <circle
           transform={`scale(1 -1)`}
           cx="0"
