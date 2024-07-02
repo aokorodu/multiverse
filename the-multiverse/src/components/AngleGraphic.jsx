@@ -7,13 +7,24 @@ export const AngleGraphic = ({ point, angle }) => {
         <text
           transform="scale(1 -1)"
           fontSize={10}
-          x={20}
-          y={5}
+          x={30}
+          y={7}
           fill="white"
           stroke={"none"}
           textAnchor="middle"
           dominantBaseline={"hanging"}
         >{`${angle}`}</text>
+        <circle
+          transform={`scale(1 -1)`}
+          cx="0"
+          cy="0"
+          r="20"
+          fill="none"
+          stroke="white"
+          stroke-width="3"
+          stroke-dasharray={`${angle} ${360 - angle}`}
+          pathLength="360"
+        />
       </g>
     </>
   );
