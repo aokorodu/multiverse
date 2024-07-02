@@ -150,13 +150,12 @@ function App() {
       const rotation =
         index % 2 == 0 ? [Math.PI * 1.5, 0, 0] : [Math.PI * 0.5, 0, 0];
       arr.push(
-        <mesh
-          position={[pos.x / 10, 1, (roomHeight - pos.y) / 10]}
+        <ConeObject
+          position={pos}
           rotation={rotation}
-        >
-          <coneGeometry></coneGeometry>
-          <meshStandardMaterial color={"red"} />
-        </mesh>
+          roomHeight={roomHeight}
+          selected={index == activeReflection ? true : false}
+        />
       );
     });
 
