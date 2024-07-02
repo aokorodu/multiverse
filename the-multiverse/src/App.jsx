@@ -23,7 +23,7 @@ function App() {
   const roomWidth = 200;
   const roomHeight = 100;
 
-  const numOfReflections = 10;
+  const numOfReflections = 5;
   const svgWidth = roomWidth;
   const svgHeight = roomHeight + numOfReflections * roomHeight;
   const ballR = 10;
@@ -303,7 +303,8 @@ function App() {
           transform="scale(1 -1)"
           x={20}
           y={5}
-          stroke="white"
+          fill="white"
+          stroke={"none"}
           textAnchor="middle"
           dominantBaseline={"hanging"}
         >{`${degrees}`}</text>
