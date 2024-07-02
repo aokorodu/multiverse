@@ -306,7 +306,7 @@ function App() {
 
   const getDistanceValue = () => {
     const pt = getReflectionPositions()[activeReflection];
-    const length = Math.abs(objectPosition.y - pt.y);
+    const length = Math.abs(cameraPosition.y - pt.y);
     const width = Math.abs(cameraPosition.x - objectPosition.x);
     const hyp = Math.sqrt(length * length + width * width);
 
