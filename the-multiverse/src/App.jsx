@@ -23,7 +23,7 @@ function App() {
   const roomWidth = 200;
   const roomHeight = 100;
 
-  const numOfReflections = 5;
+  const numOfReflections = 8;
   const svgWidth = roomWidth;
   const svgHeight = roomHeight + numOfReflections * roomHeight;
   const ballR = 10;
@@ -122,6 +122,7 @@ function App() {
           cameraPos={cameraPosition}
           opacity={reflectionOpacity}
           onClick={mirrorClick}
+          selected={i - 1 == activeReflection ? true : false}
         />
       );
     }
@@ -295,21 +296,7 @@ function App() {
   const getAngle = () => {
     const { degrees, point } = getAngleValue();
 
-    return (
-      <g
-        transform={`translate(${Math.round(point.x)}, ${Math.round(point.y)})`}
-      >
-        <text
-          transform="scale(1 -1)"
-          x={20}
-          y={5}
-          fill="white"
-          stroke={"none"}
-          textAnchor="middle"
-          dominantBaseline={"hanging"}
-        >{`${degrees}`}</text>
-      </g>
-    );
+    return <AngleGraphic point={point} angle={degrees} />;
   };
 
   const getAngleInfo = () => {

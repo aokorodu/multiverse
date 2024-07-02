@@ -12,6 +12,7 @@ export const Reflection = ({
   cameraPos,
   opacity = 1,
   onClick,
+  selected = false,
 }) => {
   const scale = flipped ? -1 : 1;
   const ypos = flipped ? y + height : y;
@@ -27,7 +28,12 @@ export const Reflection = ({
       <g transform={`translate(${x},${ypos})`} onClick={clickHandler}>
         <g transform={`scale(1 ${scale} )`}>
           <Mirrors width={width} height={height} opacity={opacity} />
-          <ObjectGraphic x={objectPos.x} y={objectPos.y} opacity={opacity} />
+          <ObjectGraphic
+            x={objectPos.x}
+            y={objectPos.y}
+            opacity={opacity}
+            selected={selected}
+          />
           {/* <CameraGraphic x={cameraPos.x} y={cameraPos.y} opacity={opacity} /> */}
           <rect
             x={0}
