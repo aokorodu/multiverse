@@ -33,7 +33,7 @@ function App() {
     top: ballR,
     bottom: roomHeight - ballR,
   };
-  const defaultCameraPosition = { x: roomWidth * 0.7, y: roomHeight * 0.8 };
+  const defaultCameraPosition = { x: roomWidth * 0.6, y: roomHeight * 0.2 };
   const defaultObjectPosition = { x: roomWidth * 0.3, y: roomHeight / 2 };
   const [activeReflection, setActiveReflection] = useState(1);
   const [cameraPosition, setCameraPosition] = useState(defaultCameraPosition);
