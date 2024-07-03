@@ -19,8 +19,8 @@ body {
   flex-direction: row;
   place-items: center;
   min-width: 320px;
-  min-height: 100vh;
   background-color: #242424;
+  height: 100vh;
 }
 
 canvas {
@@ -40,6 +40,13 @@ svg {
   gap: 20px;
 }
 
+#everything {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
 #canvasHolder {
   width: fit-content;
   height: fit-content;
@@ -49,4 +56,5 @@ svg {
 #svgHolder {
   transform: scale(1, -1);
   height: 90vh;
+  max-width: 400px;
 }
