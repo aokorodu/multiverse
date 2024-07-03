@@ -22,8 +22,8 @@ export const AngleGraphic = ({ point, angle }) => {
           r="20"
           fill="none"
           stroke="white"
-          stroke-width="3"
-          stroke-dasharray={`${angle} ${360 - angle}`}
+          strokeWidth="3"
+          strokeDasharray={`${angle} ${360 - angle}`}
           pathLength="360"
         />
       </g>

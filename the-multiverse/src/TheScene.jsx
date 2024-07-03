@@ -20,7 +20,7 @@ function TheScene() {
   const roomWidth = 200;
   const roomHeight = 100;
 
-  const numOfReflections = 20;
+  const numOfReflections = 10;
   const svgHeight = roomHeight + numOfReflections * roomHeight;
   const ballR = 10;
   const bounds = {
@@ -109,6 +109,7 @@ function TheScene() {
       reflectionOpacity *= 0.9;
       arr.push(
         <Reflection
+          key={ypos}
           x={0}
           y={ypos}
           width={roomWidth}
