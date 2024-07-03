@@ -45,6 +45,7 @@ svg {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  min-width: 500px;
 }
 
 #canvasHolder {
