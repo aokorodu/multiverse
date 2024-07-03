@@ -20,7 +20,7 @@ function TheScene() {
   const roomWidth = 200;
   const roomHeight = 100;
 
-  const numOfReflections = 8;
+  const numOfReflections = 20;
   const svgHeight = roomHeight + numOfReflections * roomHeight;
   const ballR = 10;
   const bounds = {
@@ -31,7 +31,7 @@ function TheScene() {
   };
   const defaultCameraPosition = { x: roomWidth * 0.6, y: roomHeight * 0.2 };
   const defaultObjectPosition = { x: roomWidth * 0.3, y: roomHeight / 2 };
-  const [activeReflection, setActiveReflection] = useState(1);
+  const [activeReflection, setActiveReflection] = useState(0);
   const [cameraPosition, setCameraPosition] = useState(defaultCameraPosition);
   const [objectPosition, setObjectPosition] = useState(defaultObjectPosition);
 
@@ -252,13 +252,18 @@ function TheScene() {
   };
 
   const switchOnLines = (n) => {
-    if (n == activeReflection) return;
-    setActiveReflection(n);
+    if (n == activeReflection) {
+      console.log("dont");
+      return;
+    }
+
+    const nz = n < 0 ? 0 : n;
+    setActiveReflection(nz);
     const num = numOfReflections;
     for (let i = 0; i < num; i++) {
       const pl = polyLinerefs.current[i];
       const lr = lineRefs.current[i];
-      if (i !== n) {
+      if (i !== nz) {
         pl.setAttribute("opacity", 0);
         lr.setAttribute("stroke-opacity", 0);
       } else {
@@ -270,7 +275,7 @@ function TheScene() {
 
   const mirrorClick = (index) => {
     console.log(index);
-    switchOnLines(index - 1);
+    switchOnLines(index);
   };
 
   const getAngleValue = () => {
@@ -326,7 +331,7 @@ function TheScene() {
   }, [objectPosition, cameraPosition]);
 
   useEffect(() => {
-    switchOnLines(0);
+    switchOnLines(-1);
   }, []);
 
   return (
