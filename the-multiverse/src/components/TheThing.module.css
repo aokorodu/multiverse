@@ -1,0 +1,9 @@
+.thing {
+  stroke-width: 0;
+  transition-property: all;
+  transition-duration: 0.2s;
+}
+
+.thing:hover {
+  stroke-width: 6;
+}

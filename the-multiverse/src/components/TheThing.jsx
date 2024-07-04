@@ -1,5 +1,5 @@
 import { ObjectGraphic } from "./graphics/ObjectGraphic";
-
+import styles from "./TheThing.module.css";
 export const TheThing = ({ x, y, r = 20, mouseDown }) => {
   return (
     <>
@@ -18,7 +18,14 @@ export const TheThing = ({ x, y, r = 20, mouseDown }) => {
           mouseDown("thing");
         }}
       >
-        <ObjectGraphic x={x} y={y} opacity={1} />
+        {/* <ObjectGraphic x={x} y={y} opacity={1} /> */}
+        <polygon
+          className={styles.thing}
+          points={`${x},${y - r} ${x + r},${y + r} ${x - r},${y + r} `}
+          fill={"red"}
+          stroke={"red"}
+          strokeLinejoin="round"
+        />
       </g>
     </>
   );
