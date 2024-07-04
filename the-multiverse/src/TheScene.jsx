@@ -79,11 +79,15 @@ function TheScene({ numOfReflections = 6, roomWidth, roomHeight }) {
 
   const drag = (e) => {
     if (!dragging) return;
-    updateObjectPositions(e.clientX, e.clientY);
+    console.log(e);
+    updateObjectPositions(Math.abs(e.clientX), Math.abs(e.clientY));
   };
 
   const updateObjectPositions = (x, y) => {
-    const pt = toSVGPoint(stage.current, x, y);
+    console.log("y:", Math.abs(y));
+    const pt = toSVGPoint(stage.current, Math.abs(x), Math.abs(y));
+    pt.y = Math.abs(pt.y);
+    console.log("pt: ", pt);
     if (pt.x < bounds.left) {
       pt.x = bounds.left;
     } else if (pt.x > bounds.right) {
@@ -192,7 +196,7 @@ function TheScene({ numOfReflections = 6, roomWidth, roomHeight }) {
       ];
       let index = 0;
       let totalDx = Math.abs(ptArray[0].x - ptArray[ptArray.length - 1].x);
-      console.log("totalDx < xlength?", totalDx, xlength);
+      // console.log("totalDx < xlength?", totalDx, xlength);
       while (totalDx < xlength) {
         let xpos = ptArray[ptArray.length - 1].x + dx;
         const newDist = Math.abs(xpos - ptArray[0].x);
@@ -286,7 +290,7 @@ function TheScene({ numOfReflections = 6, roomWidth, roomHeight }) {
 
   const switchOnLines = (n) => {
     if (n == activeReflection) {
-      console.log("dont");
+      // console.log("dont");
       return;
     }
 
@@ -307,7 +311,7 @@ function TheScene({ numOfReflections = 6, roomWidth, roomHeight }) {
   };
 
   const mirrorClick = (index) => {
-    console.log(index);
+    // console.log(index);
     switchOnLines(index);
   };
 

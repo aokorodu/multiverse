@@ -18,7 +18,7 @@ export const Reflection = ({
   const ypos = flipped ? y + height : y;
   const index = y / height - 1;
 
-  console.log("reflection index: ", index);
+  // console.log("reflection index: ", index);
   const clickHandler = () => {
     onClick(index);
   };
