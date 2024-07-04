@@ -236,17 +236,49 @@ function TheScene({ numOfReflections = 6, roomWidth, roomHeight }) {
     reflPoints.forEach((ptArray, index) => {
       let str = "";
       for (let i = 0; i < ptArray.length; i++) {
+        const prefix = i == 0 ? "M" : "L";
         const pt = ptArray[i];
-        str = `${str} ${pt.x},${pt.y}`;
+        str = `${str} ${prefix}${pt.x},${pt.y}`;
       }
       arr.push(
-        <polyline
-          ref={addToPolylineRefs}
-          points={str}
-          stroke={lineColors[index]}
-          fill="none"
-          strokeWidth={1}
-        />
+        <g ref={addToPolylineRefs}>
+          <path
+            d={str}
+            stroke={lineColors[index]}
+            fill="none"
+            strokeWidth={1}
+          />
+          <circle cx="0" cy="0" r="3" fill={lineColors[index]}>
+            <animateMotion
+              dur={"3s"}
+              begin={"0s"}
+              repeatCount={"indefinite"}
+              path={str}
+              keyPoints="1;0"
+              keyTimes="0;1"
+            />
+          </circle>
+          <circle cx="0" cy="0" r="3" fill={lineColors[index]}>
+            <animateMotion
+              dur={"3s"}
+              begin={"1s"}
+              repeatCount={"indefinite"}
+              path={str}
+              keyPoints="1;0"
+              keyTimes="0;1"
+            />
+          </circle>
+          <circle cx="0" cy="0" r="3" fill={lineColors[index]}>
+            <animateMotion
+              dur={"3s"}
+              begin={"2s"}
+              repeatCount={"indefinite"}
+              path={str}
+              keyPoints="1;0"
+              keyTimes="0;1"
+            />
+          </circle>
+        </g>
       );
     });
     return arr;
