@@ -3,7 +3,7 @@ import { DoubleSide } from "three";
 export const MirrorMesh = ({ z, width, height }) => {
   const w = width / 10;
   const h = height / 10;
-  const mirrorHeight = 7;
+  const mirrorHeight = 10;
   return (
     <>
       <mesh

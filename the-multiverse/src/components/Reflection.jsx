@@ -27,7 +27,11 @@ export const Reflection = ({
     <>
       <g transform={`translate(${x},${ypos})`} onClick={clickHandler}>
         <g transform={`scale(1 ${scale} )`}>
-          <Mirrors width={width} height={height} opacity={opacity} />
+          <Mirrors
+            width={width}
+            height={height}
+            opacity={selected ? 1 : opacity}
+          />
           <ObjectGraphic
             x={objectPos.x}
             y={objectPos.y}
@@ -41,7 +45,7 @@ export const Reflection = ({
             width={width}
             height={height}
             fill={"white"}
-            fillOpacity={0}
+            fillOpacity={selected ? 0.025 : 0}
           />
         </g>
       </g>
