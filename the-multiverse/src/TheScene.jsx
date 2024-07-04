@@ -260,6 +260,7 @@ function TheScene({ numOfReflections = 6, roomWidth, roomHeight }) {
               path={str}
               keyPoints="1;0"
               keyTimes="0;1"
+              calcMode={"linear"}
             />
           </circle>
           <circle cx="0" cy="0" r="3" fill={lineColors[index]}>
@@ -270,6 +271,7 @@ function TheScene({ numOfReflections = 6, roomWidth, roomHeight }) {
               path={str}
               keyPoints="1;0"
               keyTimes="0;1"
+              calcMode={"linear"}
             />
           </circle>
           <circle cx="0" cy="0" r="3" fill={lineColors[index]}>
@@ -280,6 +282,7 @@ function TheScene({ numOfReflections = 6, roomWidth, roomHeight }) {
               path={str}
               keyPoints="1;0"
               keyTimes="0;1"
+              calcMode={"linear"}
             />
           </circle>
         </g>
