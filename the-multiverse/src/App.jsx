@@ -3,7 +3,6 @@ import "./App.css";
 import TheScene from "./TheScene";
 import Intro from "./Intro";
 import Button from "@mui/material/Button";
-import { Slider } from "@mui/material";
 import { SettingsSlider } from "./components/SettingsSlider";
 
 function App() {
