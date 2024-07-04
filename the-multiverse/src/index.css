@@ -80,4 +80,11 @@ svg {
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
+  font-size: smaller;
+}
+
+h2 {
+  letter-spacing: 4px;
+  font-weight: bold;
+  color: azure;
 }

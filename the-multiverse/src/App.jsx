@@ -66,6 +66,7 @@ function App() {
         {page == 2 && (
           <>
             <div id="settingsHolder">
+              <h2>SETTINGS</h2>
               <SettingsSlider
                 label={"number of reflections"}
                 val={reflections}
