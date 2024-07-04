@@ -320,7 +320,11 @@ function TheScene({ numOfReflections = 6 }) {
 
     return (
       <>
-        <DistanceInfo distance={dist} />
+        <DistanceInfo
+          distance={dist}
+          roomWidth={roomWidth}
+          roomHeight={roomHeight}
+        />
       </>
     );
   };
