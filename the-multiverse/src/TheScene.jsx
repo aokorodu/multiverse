@@ -13,12 +13,12 @@ import { AngleGraphic } from "./components/AngleGraphic";
 import { AngleInfo } from "./components/AngleInfo";
 import { DistanceInfo } from "./components/DistanceInfo";
 
-function TheScene({ numOfReflections = 6 }) {
+function TheScene({ numOfReflections = 6, roomWidth, roomHeight }) {
   const stage = useRef(null);
   const lineRefs = useRef([]);
   const polyLinerefs = useRef([]);
-  const roomWidth = 200;
-  const roomHeight = 100;
+  // const roomWidth = 200;
+  // const roomHeight = 100;
 
   // const numOfReflections = 6;
   const svgHeight = roomHeight + numOfReflections * roomHeight;
