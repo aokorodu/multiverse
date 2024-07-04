@@ -163,7 +163,7 @@ function TheScene({ numOfReflections = 6, roomWidth, roomHeight }) {
     const arr = [];
     for (let i = 0; i < numOfReflections; i++) {
       const zpos = i * -20;
-      arr.push(<MirrorMesh z={zpos} />);
+      arr.push(<MirrorMesh z={zpos} width={roomWidth} height={roomHeight} />);
     }
 
     return arr;

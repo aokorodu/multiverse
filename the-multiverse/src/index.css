@@ -24,8 +24,8 @@ body {
 }
 
 canvas {
-  width: 500px;
-  height: 250px;
+  width: 100%;
+  height: 100%;
 }
 
 svg {
@@ -49,9 +49,14 @@ svg {
 }
 
 #canvasHolder {
-  width: fit-content;
-  height: fit-content;
+  width: 100%;
+  height: 100%;
   border: 1px solid rgb(102, 102, 102);
+}
+
+#contentHolder {
+  width: 500px;
+  height: 250px;
 }
 
 #svgHolder {

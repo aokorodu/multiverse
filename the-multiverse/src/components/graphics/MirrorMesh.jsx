@@ -1,9 +1,16 @@
 import { DoubleSide } from "three";
 
-export const MirrorMesh = ({ z }) => {
+export const MirrorMesh = ({ z, width, height }) => {
+  const w = width / 10;
+  const h = height / 10;
+  const mirrorHeight = 7;
   return (
     <>
-      <mesh position={[10, 2.5, z]} rotation={[0, 0, 0]} scale={[20, 5, 1]}>
+      <mesh
+        position={[w / 2, mirrorHeight / 2, z]}
+        rotation={[0, 0, 0]}
+        scale={[w, mirrorHeight, 1]}
+      >
         <planeGeometry args={[1, 1]} />
 
         <meshBasicMaterial
@@ -13,7 +20,11 @@ export const MirrorMesh = ({ z }) => {
           opacity={0.035}
         />
       </mesh>
-      <mesh position={[10, 2.5, z]} rotation={[0, 0, 0]} scale={[20, 5, 1]}>
+      <mesh
+        position={[w / 2, mirrorHeight / 2, z]}
+        rotation={[0, 0, 0]}
+        scale={[w, mirrorHeight, 1]}
+      >
         <planeGeometry args={[1, 1]} />
 
         <meshBasicMaterial

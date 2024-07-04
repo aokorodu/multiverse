@@ -9,9 +9,9 @@ function App() {
   useEffect(() => {}, []);
 
   const [page, setPage] = useState(0);
-  const [reflections, setReflections] = useState(1);
+  const [reflections, setReflections] = useState(2);
   const [roomWidth, setRoomWidth] = useState(200);
-  const [roomHeight, setRoomHeight] = useState(100);
+  const [roomHeight, setRoomHeight] = useState(200);
   const changePage = () => {
     let newPage = 0;
     switch (page) {
