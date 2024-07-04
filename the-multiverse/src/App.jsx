@@ -106,7 +106,7 @@ function App() {
             />
           </>
         )}
-        <Button variant="text" onClick={changePage}>
+        <Button variant="contained" onClick={changePage}>
           <span>{getButtonText()}</span>
         </Button>
       </div>
