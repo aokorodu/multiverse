@@ -4,6 +4,7 @@ import TheScene from "./TheScene";
 import Intro from "./Intro";
 import Button from "@mui/material/Button";
 import { Slider } from "@mui/material";
+import { SettingsSlider } from "./components/SettingsSlider";
 
 function App() {
   useEffect(() => {}, []);
@@ -65,45 +66,57 @@ function App() {
         )}
         {page == 2 && (
           <>
-            <Slider
-              aria-label="number of reflections"
-              defaultValue={reflections}
-              step={1}
-              marks
-              min={1}
-              max={20}
-              valueLabelDisplay="auto"
-              onChange={(e) => {
-                const val = e.target.value;
-                setReflections(val);
-              }}
-            />
-            <Slider
-              aria-label="room width"
-              defaultValue={roomWidth}
-              step={1}
-              marks
-              min={50}
-              max={300}
-              valueLabelDisplay="auto"
-              onChange={(e) => {
-                const val = e.target.value;
-                setRoomWidth(val);
-              }}
-            />
-            <Slider
-              aria-label="room height"
-              defaultValue={roomHeight}
-              step={1}
-              marks
-              min={50}
-              max={300}
-              valueLabelDisplay="auto"
-              onChange={(e) => {
-                const val = e.target.value;
-                setRoomHeight(val);
-              }}
-            />
+            <div id="settingsHolder">
+              <SettingsSlider
+                label={"number of reflections"}
+                val={reflections}
+                min={1}
+                max={20}
+                callback={setReflections}
+              />
+
+              <SettingsSlider
+                label={"room width"}
+                val={roomWidth}
+                min={50}
+                max={300}
+                callback={setRoomWidth}
+              />
+              {/* <Slider
+                aria-label="room width"
+                defaultValue={roomWidth}
+                step={1}
+                marks
+                min={50}
+                max={300}
+                valueLabelDisplay="auto"
+                onChange={(e) => {
+                  const val = e.target.value;
+                  setRoomWidth(val);
+                }}
+              /> */}
+
+              <SettingsSlider
+                label={"room height"}
+                val={roomHeight}
+                min={50}
+                max={300}
+                callback={setRoomHeight}
+              />
+              {/* <Slider
+                aria-label="room height"
+                defaultValue={roomHeight}
+                step={1}
+                marks
+                min={50}
+                max={300}
+                valueLabelDisplay="auto"
+                onChange={(e) => {
+                  const val = e.target.value;
+                  setRoomHeight(val);
+                }}
+              /> */}
+            </div>
           </>
         )}
         <Button variant="outlined" onClick={changePage}>
