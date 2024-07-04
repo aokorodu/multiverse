@@ -74,7 +74,6 @@ function App() {
                 max={20}
                 callback={setReflections}
               />
-
               <SettingsSlider
                 label={"room width"}
                 val={roomWidth}
@@ -82,20 +81,6 @@ function App() {
                 max={300}
                 callback={setRoomWidth}
               />
-              {/* <Slider
-                aria-label="room width"
-                defaultValue={roomWidth}
-                step={1}
-                marks
-                min={50}
-                max={300}
-                valueLabelDisplay="auto"
-                onChange={(e) => {
-                  const val = e.target.value;
-                  setRoomWidth(val);
-                }}
-              /> */}
-
               <SettingsSlider
                 label={"room height"}
                 val={roomHeight}
@@ -103,19 +88,6 @@ function App() {
                 max={300}
                 callback={setRoomHeight}
               />
-              {/* <Slider
-                aria-label="room height"
-                defaultValue={roomHeight}
-                step={1}
-                marks
-                min={50}
-                max={300}
-                valueLabelDisplay="auto"
-                onChange={(e) => {
-                  const val = e.target.value;
-                  setRoomHeight(val);
-                }}
-              /> */}
             </div>
           </>
         )}
