@@ -1,7 +1,6 @@
 export const ReflectionLine = ({ numberOfPoints, pointString, color }) => {
   const durationVal = numberOfPoints + 1;
   const dur = `${durationVal}s`;
-  const delayIncrement = 1;
 
   const getAnimatedCircles = () => {
     const arr = [];
