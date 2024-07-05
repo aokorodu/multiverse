@@ -263,13 +263,13 @@ function TheScene({ numOfReflections = 6, roomWidth, roomHeight }) {
       return;
     }
 
-    const nz = n < 0 ? 0 : n;
-    setActiveReflection(nz);
+    const newActiveLineNum = n < 0 ? 0 : n;
+    setActiveReflection(newActiveLineNum);
     const num = numOfReflections;
     for (let i = 0; i < num; i++) {
       const pl = reflectionLineRefs.current[i];
       const lr = lineRefs.current[i];
-      if (i !== nz) {
+      if (i !== newActiveLineNum) {
         pl.setAttribute("opacity", 0);
         lr.setAttribute("stroke-opacity", 0);
       } else {
@@ -280,7 +280,6 @@ function TheScene({ numOfReflections = 6, roomWidth, roomHeight }) {
   };
 
   const mirrorClick = (index) => {
-    // console.log(index);
     switchOnLines(index);
   };
 
