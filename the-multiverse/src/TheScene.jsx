@@ -237,8 +237,11 @@ function TheScene({ numOfReflections = 6, roomWidth, roomHeight }) {
   const getMirrorReflectionPolylines = () => {
     const arr = [];
     const reflPoints = getMirrorReflectionPoints();
+
     reflPoints.forEach((ptArray, index) => {
+      const num = ptArray.length;
       let str = "";
+      let dur = `${num}s`;
       for (let i = 0; i < ptArray.length; i++) {
         const prefix = i == 0 ? "M" : "L";
         const pt = ptArray[i];
@@ -254,7 +257,7 @@ function TheScene({ numOfReflections = 6, roomWidth, roomHeight }) {
           />
           <circle cx="0" cy="0" r="3" fill={lineColors[index]}>
             <animateMotion
-              dur={"3s"}
+              dur={dur}
               begin={"0s"}
               repeatCount={"indefinite"}
               path={str}
@@ -265,8 +268,8 @@ function TheScene({ numOfReflections = 6, roomWidth, roomHeight }) {
           </circle>
           <circle cx="0" cy="0" r="3" fill={lineColors[index]}>
             <animateMotion
-              dur={"3s"}
-              begin={"1s"}
+              dur={dur}
+              begin={`${num * 0.33}s`}
               repeatCount={"indefinite"}
               path={str}
               keyPoints="1;0"
@@ -276,8 +279,8 @@ function TheScene({ numOfReflections = 6, roomWidth, roomHeight }) {
           </circle>
           <circle cx="0" cy="0" r="3" fill={lineColors[index]}>
             <animateMotion
-              dur={"3s"}
-              begin={"2s"}
+              dur={dur}
+              begin={`${num * 0.66}s`}
               repeatCount={"indefinite"}
               path={str}
               keyPoints="1;0"
@@ -378,9 +381,34 @@ function TheScene({ numOfReflections = 6, roomWidth, roomHeight }) {
     switchOnLines(-1);
   }, []);
 
+  const zoom = (e) => {
+    console.log(e);
+    const viewBox = stage.current.getAttribute("viewBox");
+    const arr = viewBox.split(" ");
+    console.log("viewBox: ", viewBox);
+    let vbh = eval(arr[arr.length - 1]);
+    console.log("vbh:", vbh);
+    if (vbh == roomHeight) {
+      vbh = svgHeight;
+      e.target.innerHTML = "+";
+    } else {
+      vbh = roomHeight;
+      e.target.innerHTML = "-";
+    }
+    stage.current.setAttribute("viewBox", `0 0 ${roomWidth} ${vbh}`);
+  };
+
   return (
     <>
       <div id="holder">
+        <button
+          id="zoom"
+          onClick={(e) => {
+            zoom(e);
+          }}
+        >
+          +
+        </button>
         <div id="svgHolder">
           <svg
             ref={stage}

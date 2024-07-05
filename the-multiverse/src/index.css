@@ -62,7 +62,11 @@ svg {
 #svgHolder {
   transform: scale(1, -1);
   height: 90vh;
-  max-width: 400px;
+  width: 300px;
+}
+
+#zoom {
+  width: 50px;
 }
 
 #settingsHolder {
