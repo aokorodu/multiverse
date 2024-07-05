@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import "./App.css";
-import TheScene from "./TheScene";
-import Intro from "./Intro";
+import TheScene from "./components/TheScene";
+import Intro from "./components/Intro";
 import Button from "@mui/material/Button";
 import { SettingsSlider } from "./components/SettingsSlider";
 

@@ -1,17 +1,17 @@
 import { useState, useRef, useEffect } from "react";
-import "./App.css";
+import "../App.css";
 import { Canvas } from "@react-three/fiber";
-import { TheThing } from "./components/TheThing";
-import { CameraSVG } from "./components/CameraSVG";
-import { toSVGPoint, lineColors } from "./utils/utils";
-import { Reflection } from "./components/Reflection";
-import { Mirrors } from "./components/graphics/Mirrors";
-import { ConeObject } from "./components/graphics/ConeObject";
-import { THREECamera } from "./components/THREECamera";
-import { MirrorMesh } from "./components/graphics/MirrorMesh";
-import { AngleGraphic } from "./components/AngleGraphic";
-import { AngleInfo } from "./components/AngleInfo";
-import { DistanceInfo } from "./components/DistanceInfo";
+import { TheThing } from "./TheThing";
+import { CameraSVG } from "./CameraSVG";
+import { toSVGPoint, lineColors } from "../utils/utils";
+import { Reflection } from "./Reflection";
+import { Mirrors } from "./graphics/Mirrors";
+import { ConeObject } from "./graphics/ConeObject";
+import { THREECamera } from "./THREECamera";
+import { MirrorMesh } from "./graphics/MirrorMesh";
+import { AngleGraphic } from "./AngleGraphic";
+import { AngleInfo } from "./AngleInfo";
+import { DistanceInfo } from "./DistanceInfo";
 
 function TheScene({ numOfReflections = 6, roomWidth, roomHeight }) {
   const stage = useRef(null);
@@ -448,9 +448,11 @@ function TheScene({ numOfReflections = 6, roomWidth, roomHeight }) {
               <gridHelper args={[200, 100, "#383838", "#383838"]} />
               {/* <OrbitControls /> */}
             </Canvas>
+            <div id="statsHolder">
+              {getAngleInfo()}
+              {getDistanceInfo()}
+            </div>
           </div>
-          {getAngleInfo()}
-          {getDistanceInfo()}
         </div>
       </div>
     </>
