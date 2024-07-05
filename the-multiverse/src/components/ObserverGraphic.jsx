@@ -11,9 +11,6 @@ export const ObserverGraphic = ({ x, y, r = 10, mouseDown }) => {
           fill={"white"}
           fillOpacity={1}
           stroke={"white"}
-          onMouseDown={() => {
-            mouseDown("camera");
-          }}
         />
         <circle
           cx={x}
@@ -22,9 +19,6 @@ export const ObserverGraphic = ({ x, y, r = 10, mouseDown }) => {
           fill={"cyan"}
           stroke={"black"}
           strokeWidth={1}
-          onMouseDown={() => {
-            mouseDown("camera");
-          }}
         />
         <circle
           cx={x}
@@ -33,9 +27,6 @@ export const ObserverGraphic = ({ x, y, r = 10, mouseDown }) => {
           fill={"black"}
           stroke={"black"}
           strokeWidth={1}
-          onMouseDown={() => {
-            mouseDown("camera");
-          }}
         />
         <circle
           cx={x}
