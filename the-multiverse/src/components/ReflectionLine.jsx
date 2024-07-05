@@ -17,7 +17,7 @@ export const ReflectionLine = ({ numberOfPoints, pointString, color }) => {
       <circle cx="0" cy="0" r="3" fill={color}>
         <animateMotion
           dur={dur}
-          begin={`${num * 0.33}s`}
+          begin={`${numberOfPoints * 0.33}s`}
           repeatCount={"indefinite"}
           path={pointString}
           keyPoints="1;0"
@@ -28,7 +28,7 @@ export const ReflectionLine = ({ numberOfPoints, pointString, color }) => {
       <circle cx="0" cy="0" r="3" fill={color}>
         <animateMotion
           dur={dur}
-          begin={`${num * 0.66}s`}
+          begin={`${numberOfPoints * 0.66}s`}
           repeatCount={"indefinite"}
           path={pointString}
           keyPoints="1;0"

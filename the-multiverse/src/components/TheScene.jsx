@@ -12,11 +12,12 @@ import { MirrorMesh } from "./graphics/MirrorMesh";
 import { AngleGraphic } from "./AngleGraphic";
 import { AngleInfo } from "./AngleInfo";
 import { DistanceInfo } from "./DistanceInfo";
+import { ReflectionLine } from "./ReflectionLine";
 
 function TheScene({ numOfReflections = 6, roomWidth, roomHeight }) {
   const stage = useRef(null);
   const lineRefs = useRef([]);
-  const polyLinerefs = useRef([]);
+  const reflectionLineRefs = useRef([]);
   // const roomWidth = 200;
   // const roomHeight = 100;
 
@@ -228,9 +229,9 @@ function TheScene({ numOfReflections = 6, roomWidth, roomHeight }) {
     }
   };
 
-  const addToPolylineRefs = (el) => {
-    if (el && !polyLinerefs.current.includes(el)) {
-      polyLinerefs.current.push(el);
+  const addToReflectionLineRefs = (el) => {
+    if (el && !reflectionLineRefs.current.includes(el)) {
+      reflectionLineRefs.current.push(el);
     }
   };
 
@@ -248,46 +249,12 @@ function TheScene({ numOfReflections = 6, roomWidth, roomHeight }) {
         str = `${str} ${prefix}${pt.x},${pt.y}`;
       }
       arr.push(
-        <g ref={addToPolylineRefs}>
-          <path
-            d={str}
-            stroke={lineColors[index]}
-            fill="none"
-            strokeWidth={1}
+        <g ref={addToReflectionLineRefs}>
+          <ReflectionLine
+            numberOfPoints={num}
+            pointString={str}
+            color={lineColors[index]}
           />
-          <circle cx="0" cy="0" r="3" fill={lineColors[index]}>
-            <animateMotion
-              dur={dur}
-              begin={"0s"}
-              repeatCount={"indefinite"}
-              path={str}
-              keyPoints="1;0"
-              keyTimes="0;1"
-              calcMode={"linear"}
-            />
-          </circle>
-          <circle cx="0" cy="0" r="3" fill={lineColors[index]}>
-            <animateMotion
-              dur={dur}
-              begin={`${num * 0.33}s`}
-              repeatCount={"indefinite"}
-              path={str}
-              keyPoints="1;0"
-              keyTimes="0;1"
-              calcMode={"linear"}
-            />
-          </circle>
-          <circle cx="0" cy="0" r="3" fill={lineColors[index]}>
-            <animateMotion
-              dur={dur}
-              begin={`${num * 0.66}s`}
-              repeatCount={"indefinite"}
-              path={str}
-              keyPoints="1;0"
-              keyTimes="0;1"
-              calcMode={"linear"}
-            />
-          </circle>
         </g>
       );
     });
@@ -304,7 +271,7 @@ function TheScene({ numOfReflections = 6, roomWidth, roomHeight }) {
     setActiveReflection(nz);
     const num = numOfReflections;
     for (let i = 0; i < num; i++) {
-      const pl = polyLinerefs.current[i];
+      const pl = reflectionLineRefs.current[i];
       const lr = lineRefs.current[i];
       if (i !== nz) {
         pl.setAttribute("opacity", 0);
