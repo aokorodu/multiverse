@@ -1,5 +1,4 @@
 import { ObjectGraphic } from "./graphics/ObjectGraphic";
-// import { CameraGraphic } from "./graphics/CameraGraphic";
 import { Mirrors } from "./graphics/Mirrors";
 
 export const Reflection = ({
@@ -9,7 +8,6 @@ export const Reflection = ({
   y,
   flipped,
   objectPos,
-  cameraPos,
   opacity = 1,
   onClick,
   selected = false,
@@ -17,8 +15,6 @@ export const Reflection = ({
   const scale = flipped ? -1 : 1;
   const ypos = flipped ? y + height : y;
   const index = y / height - 1;
-
-  // console.log("reflection index: ", index);
   const clickHandler = () => {
     onClick(index);
   };
@@ -38,7 +34,6 @@ export const Reflection = ({
             opacity={opacity}
             selected={selected}
           />
-          {/* <CameraGraphic x={cameraPos.x} y={cameraPos.y} opacity={opacity} /> */}
           <rect
             x={0}
             y={0}

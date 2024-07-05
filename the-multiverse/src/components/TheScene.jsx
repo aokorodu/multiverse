@@ -2,7 +2,7 @@ import { useState, useRef, useEffect } from "react";
 import "../App.css";
 import { Canvas } from "@react-three/fiber";
 import { TheThing } from "./TheThing";
-import { CameraSVG } from "./CameraSVG";
+import { ObserverGraphic } from "./ObserverGraphic";
 import { toSVGPoint, lineColors } from "../utils/utils";
 import { Reflection } from "./Reflection";
 import { Mirrors } from "./graphics/Mirrors";
@@ -420,7 +420,7 @@ function TheScene({ numOfReflections = 6, roomWidth, roomHeight }) {
             <Mirrors width={roomWidth} height={roomHeight} />
             <g>{getLines()}</g>
             <g>{getMirrorReflectionPolylines()}</g>
-            <CameraSVG
+            <ObserverGraphic
               x={cameraPosition.x}
               y={cameraPosition.y}
               r={ballR}

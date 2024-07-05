@@ -1,6 +1,6 @@
 import styles from "./TheThing.module.css";
 
-export const CameraSVG = ({ x, y, r = 10, mouseDown }) => {
+export const ObserverGraphic = ({ x, y, r = 10, mouseDown }) => {
   return (
     <>
       <g className={styles.thing}>
