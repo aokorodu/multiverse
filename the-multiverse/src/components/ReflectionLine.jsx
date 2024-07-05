@@ -1,9 +1,33 @@
 export const ReflectionLine = ({ numberOfPoints, pointString, color }) => {
-  const dur = `${numberOfPoints}s`;
+  const durationVal = numberOfPoints + 1;
+  const dur = `${durationVal}s`;
+  const delayIncrement = 1;
+
+  const getAnimatedCircles = () => {
+    const arr = [];
+    for (let i = 0; i < numberOfPoints; i++) {
+      arr.push(
+        <circle cx="0" cy="0" r="3" fill={color}>
+          <animateMotion
+            dur={dur}
+            begin={`-${i}s`}
+            repeatCount={"indefinite"}
+            path={pointString}
+            keyPoints="1;0"
+            keyTimes="0;1"
+            calcMode={"linear"}
+          />
+        </circle>
+      );
+    }
+
+    return arr;
+  };
   return (
     <>
       <path d={pointString} stroke={color} fill="none" strokeWidth={1} />
-      <circle cx="0" cy="0" r="3" fill={color}>
+      {getAnimatedCircles()}
+      {/* <circle cx="0" cy="0" r="3" fill={color}>
         <animateMotion
           dur={dur}
           begin={"0s"}
@@ -35,7 +59,7 @@ export const ReflectionLine = ({ numberOfPoints, pointString, color }) => {
           keyTimes="0;1"
           calcMode={"linear"}
         />
-      </circle>
+      </circle> */}
     </>
   );
 };
