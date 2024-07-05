@@ -18,10 +18,6 @@ function TheScene({ numOfReflections = 6, roomWidth, roomHeight }) {
   const stage = useRef(null);
   const lineRefs = useRef([]);
   const reflectionLineRefs = useRef([]);
-  // const roomWidth = 200;
-  // const roomHeight = 100;
-
-  // const numOfReflections = 6;
   const svgHeight = roomHeight + numOfReflections * roomHeight;
   const ballR = 10;
   const bounds = {
@@ -263,7 +259,7 @@ function TheScene({ numOfReflections = 6, roomWidth, roomHeight }) {
 
   const switchOnLines = (n) => {
     if (n == activeReflection) {
-      // console.log("dont");
+      // same as current, don't do anything
       return;
     }
 
