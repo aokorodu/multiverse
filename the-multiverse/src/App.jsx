@@ -82,7 +82,7 @@ function App() {
                 callback={setRoomWidth}
               />
               <SettingsSlider
-                label={"room height"}
+                label={"room length"}
                 val={roomHeight}
                 min={50}
                 max={300}
