@@ -1,4 +1,9 @@
 .introHolder {
   width: 800px;
   height: 600px;
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
+  justify-content: center;
+  align-items: center;
 }

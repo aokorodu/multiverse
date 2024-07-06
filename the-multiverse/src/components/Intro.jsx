@@ -1,19 +1,64 @@
 import { useRef, useState } from "react";
 import styles from "./Intro.module.css";
+import gsap from "gsap";
+import { useGSAP } from "@gsap/react";
 
 const Intro = () => {
   const stage = useRef(null);
   const scene_1 = useRef(null);
   const scene_2 = useRef(null);
   const scene_3 = useRef(null);
+  const sceneRefs = useRef([]);
+  const [sceneNum, setSceneNum] = useState(0);
+
+  const addToScenes = (el) => {
+    if (el && !sceneRefs.current.includes(el)) {
+      sceneRefs.current.push(el);
+    }
+  };
+
+  const nextPage = () => {
+    const val = sceneNum + 1;
+    setSceneNum((currentNum) => {
+      return currentNum + 1;
+    });
+  };
+
+  const prevPage = () => {
+    setSceneNum((currentNum) => {
+      return currentNum - 1;
+    });
+  };
+
+  const showPage = () => {
+    sceneRefs.current.forEach((scene, index) => {
+      if (sceneNum == index) {
+        gsap.to(scene, {
+          opacity: 1,
+        });
+      } else {
+        gsap.to(scene, {
+          opacity: 0,
+        });
+      }
+    });
+  };
+
+  useGSAP(() => {
+    console.log("useGsap: ", sceneNum);
+    showPage();
+  }, [sceneNum]);
 
   return (
     <>
       <div className={styles.introHolder}>
+        <button onClick={prevPage} disabled={sceneNum == 0 ? true : false}>
+          prev
+        </button>
+
         <svg ref={stage} width={"100%"} height={"100%"} viewBox={`0 0 800 610`}>
           <g id="Intro">
-            <rect width="800" height="610" fill="#3F3F3F" />
-            <g ref={scene_1} id="scene_1">
+            <g ref={addToScenes} id="scene_1">
               <g id="observer">
                 <g id="Ellipse 51">
                   <circle cx="580" cy="300" r="50" fill="#FCFCFC" />
@@ -96,7 +141,7 @@ const Intro = () => {
                 </g>
               </g>
             </g>
-            <g ref={scene_2} id="scene_2" opacity={1}>
+            {/* <g ref={addToScenes} id="scene_2" opacity={1}>
               <g id="line_to_reflection" opacity="0.6">
                 <line
                   id="Line 6"
@@ -187,8 +232,120 @@ const Intro = () => {
                   strokeWidth="10"
                 />
               </g>
+            </g> */}
+
+            <g ref={addToScenes} id="scene_2" opacity={1}>
+              <g id="line_to_reflection" opacity="0.6">
+                <line
+                  id="Line 6"
+                  x1="111.5"
+                  y1="177"
+                  x2="111.5"
+                  y2="428"
+                  stroke="white"
+                  stroke-opacity="0.7"
+                />
+                <line
+                  id="Line 7"
+                  x1="112.412"
+                  y1="176.716"
+                  x2="285.412"
+                  y2="427.716"
+                  stroke="white"
+                  stroke-opacity="0.7"
+                />
+              </g>
+              <g id="line_to_mirror">
+                <line
+                  id="Line 8"
+                  x1="111.583"
+                  y1="426.724"
+                  x2="195.583"
+                  y2="299.724"
+                  stroke="#FF0000"
+                />
+                <line
+                  id="Line 9"
+                  y1="-0.5"
+                  x2="152.266"
+                  y2="-0.5"
+                  transform="matrix(-0.566701 -0.823924 -0.823924 0.566701 284.145 427.229)"
+                  stroke="#FF0000"
+                />
+              </g>
+              <g id="shrunk_scene_1">
+                <g id="mirror">
+                  <line
+                    id="Line 5"
+                    y1="300"
+                    x2="400"
+                    y2="300"
+                    stroke="#ADD8E6"
+                    stroke-width="10"
+                  />
+                </g>
+                <g id="mirror_2">
+                  <line
+                    id="Line 5_2"
+                    y1="595.001"
+                    x2="400"
+                    y2="595.001"
+                    stroke="#ADD8E6"
+                    stroke-width="10"
+                  />
+                </g>
+                <g id="objects">
+                  <g id="observer">
+                    <g id="Ellipse 51">
+                      <circle cx="297" cy="450.002" r="25" fill="#FCFCFC" />
+                      <circle cx="297" cy="450.002" r="25" fill="#FCFCFC" />
+                      <circle cx="297" cy="450.002" r="25" fill="#FCFCFC" />
+                    </g>
+                    <circle
+                      id="Ellipse 52"
+                      cx="297"
+                      cy="450.002"
+                      r="17"
+                      fill="#00FFFF"
+                      stroke="black"
+                    />
+                    <circle
+                      id="Ellipse 53"
+                      cx="297"
+                      cy="450.002"
+                      r="10"
+                      fill="black"
+                    />
+                  </g>
+                  <g id="object">
+                    <path
+                      id="object_2"
+                      d="M112.035 471.023C111.575 471.82 110.425 471.82 109.965 471.023L86.1619 429.794C85.7019 428.998 86.2769 428.002 87.1968 428.002L134.803 428.002C135.723 428.002 136.298 428.998 135.838 429.794L112.035 471.023Z"
+                      fill="#F10202"
+                    />
+                  </g>
+                </g>
+              </g>
+              <g id="object_reflection" opacity="0.8">
+                <path
+                  id="object_3"
+                  d="M109.965 133.597C110.425 132.801 111.575 132.801 112.035 133.597L135.838 174.826C136.298 175.622 135.723 176.618 134.803 176.618L87.1968 176.618C86.2769 176.618 85.7019 175.622 86.1619 174.826L109.965 133.597Z"
+                  fill="#F10202"
+                />
+              </g>
+              <g id="mirror_3">
+                <line
+                  id="Line 5_3"
+                  y1="5"
+                  x2="400"
+                  y2="5"
+                  stroke="#ADD8E6"
+                  stroke-width="10"
+                />
+              </g>
             </g>
-            <g ref={scene_3} id="scene_3" opacity={1}>
+
+            <g ref={addToScenes} id="scene_3" opacity={1}>
               <g id="shrunk_scene_1_2">
                 <g id="mirror_7">
                   <line
@@ -362,6 +519,11 @@ const Intro = () => {
             </g>
           </g>
         </svg>
+        {
+          <button onClick={nextPage} disabled={sceneNum == 2 ? true : false}>
+            next
+          </button>
+        }
       </div>
     </>
   );
