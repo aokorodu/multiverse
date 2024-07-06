@@ -234,7 +234,7 @@ const Intro = () => {
               </g>
             </g> */}
 
-            <g ref={addToScenes} id="scene_2" opacity={1}>
+            <g ref={addToScenes} id="scene_2" opacity={0}>
               <g id="line_to_reflection" opacity="0.6">
                 <line
                   id="Line 6"
@@ -345,7 +345,7 @@ const Intro = () => {
               </g>
             </g>
 
-            <g ref={addToScenes} id="scene_3" opacity={1}>
+            <g ref={addToScenes} id="scene_3" opacity={0}>
               <g id="shrunk_scene_1_2">
                 <g id="mirror_7">
                   <line
