@@ -95,6 +95,7 @@ function App() {
         <div className={page == -1 ? "disabled" : "enabled"}>
           <Button
             variant="contained"
+            size="large"
             onClick={changePage}
             disabled={page == -1 ? true : false}
           >

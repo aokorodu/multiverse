@@ -3,6 +3,8 @@ import styles from "./Intro.module.css";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import Button from "@mui/material/Button";
+import NavigateBeforeIcon from "@mui/icons-material/NavigateBefore";
+import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 
 const Intro = ({ completedCallback }) => {
   const stage = useRef(null);
@@ -60,8 +62,9 @@ const Intro = ({ completedCallback }) => {
           variant="outlined"
           onClick={prevPage}
           disabled={sceneNum == 0 ? true : false}
+          startIcon={<NavigateBeforeIcon />}
         >
-          ≪
+          prev
         </Button>
 
         <svg ref={stage} width={"100%"} height={"100%"} viewBox={`0 0 800 610`}>
@@ -656,8 +659,9 @@ const Intro = ({ completedCallback }) => {
             variant="outlined"
             onClick={nextPage}
             disabled={sceneNum == sceneRefs.current.length - 1 ? true : false}
+            endIcon={<NavigateNextIcon color={"secondary"} />}
           >
-            ≫
+            next
           </Button>
         }
       </div>
