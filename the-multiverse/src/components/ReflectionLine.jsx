@@ -6,7 +6,7 @@ export const ReflectionLine = ({ numberOfPoints, pointString, color }) => {
     const arr = [];
     for (let i = 0; i < numberOfPoints; i++) {
       arr.push(
-        <circle cx="0" cy="0" r="3" fill={color}>
+        <circle cx="0" cy="0" r="2" fill={color}>
           <animateMotion
             dur={dur}
             begin={`-${i}s`}
