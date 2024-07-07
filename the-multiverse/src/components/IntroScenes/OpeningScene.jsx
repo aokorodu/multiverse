@@ -1,7 +1,30 @@
-export const OpeningScene = () => {
+import { useRef, useEffect, useState } from "react";
+import gsap from "gsap";
+import { useGSAP } from "@gsap/react";
+
+export const OpeningScene = ({ active = true }) => {
+  const observer = useRef(null);
+  const object = useRef(null);
+  const mirrors = useRef(null);
+  const tlRef = useRef(null);
+
+  useEffect(() => {
+    if (active && tlRef.current == null) {
+      runAnimation();
+    }
+  });
+
+  const runAnimation = () => {
+    console.log("zzz runAnimation");
+    tlRef.current = gsap.timeline({ delay: 1 });
+    tlRef.current.to(object.current, { opacity: 1, duration: 1 });
+    tlRef.current.to(observer.current, { opacity: 1, duration: 1 });
+    tlRef.current.to(mirrors.current, { opacity: 1, duration: 1 });
+  };
+
   return (
     <>
-      <g id="observer">
+      <g ref={observer} id="observer" opacity={0}>
         <g id="Ellipse 51">
           <circle cx="580" cy="300" r="50" fill="#FCFCFC" />
           <circle cx="580" cy="300" r="50" fill="#FCFCFC" />
@@ -16,15 +39,25 @@ export const OpeningScene = () => {
           stroke="black"
         />
         <circle id="Ellipse 53" cx="580" cy="300" r="20" fill="black" />
+        <text id="observer_text" fill="white" font-size="48">
+          <tspan x="479" y="411.455">
+            observer
+          </tspan>
+        </text>
       </g>
-      <g id="object">
+      <g ref={object} id="object" opacity={0}>
         <path
           id="object_2"
           d="M221.07 342.042C220.15 343.635 217.85 343.635 216.93 342.042L169.324 259.585C168.404 257.992 169.554 256 171.394 256L266.606 256C268.446 256 269.596 257.992 268.676 259.585L221.07 342.042Z"
           fill="#F10202"
         />
+        <text id="object_text" fill="white" font-size="48">
+          <tspan x="147" y="411.455">
+            object
+          </tspan>
+        </text>
       </g>
-      <g id="mirrors">
+      <g ref={mirrors} id="mirrors" opacity={0}>
         <g id="mirror">
           <line
             id="Line 5"
@@ -45,18 +78,6 @@ export const OpeningScene = () => {
             strokeWidth="10"
           />
         </g>
-      </g>
-      <g id="descriptive_text">
-        <text id="object_text" fill="white" font-size="48">
-          <tspan x="147" y="411.455">
-            object
-          </tspan>
-        </text>
-        <text id="observer_text" fill="white" font-size="48">
-          <tspan x="479" y="411.455">
-            observer
-          </tspan>
-        </text>
         <g id="mirror_text_top">
           <path
             id="^"

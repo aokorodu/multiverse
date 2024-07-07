@@ -61,7 +61,6 @@ const Intro = ({ completedCallback }) => {
   };
 
   useGSAP(() => {
-    console.log("useGsap: ", sceneNum);
     showPage();
   }, [sceneNum]);
 
@@ -82,7 +81,7 @@ const Intro = ({ completedCallback }) => {
             <TitleScene />
           </g>
           <g ref={addToScenes} id="opening-scene" opacity={0}>
-            <OpeningScene />
+            <OpeningScene active={sceneNum == 1} />
           </g>
           <g ref={addToScenes} id="virtual-distance-scene" opacity={0}>
             <VirtualDistScene />
