@@ -1,5 +1,6 @@
 import { ObjectGraphic } from "./graphics/ObjectGraphic";
 import { Mirrors } from "./graphics/Mirrors";
+import styles from "./Reflection.module.css";
 
 export const Reflection = ({
   width,
@@ -35,6 +36,7 @@ export const Reflection = ({
             selected={selected}
           />
           <rect
+            className={styles.holder}
             x={0}
             y={0}
             width={width}

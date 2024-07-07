@@ -107,7 +107,7 @@ function TheScene({ numOfReflections = 6, roomWidth, roomHeight }) {
 
   const getReflections = () => {
     const arr = [];
-    let reflectionOpacity = 0.75;
+    let reflectionOpacity = 0.9;
     for (let i = 1; i < numOfReflections + 1; i++) {
       const ypos = i * roomHeight;
       const flipped = i % 2 == 0 ? false : true;
