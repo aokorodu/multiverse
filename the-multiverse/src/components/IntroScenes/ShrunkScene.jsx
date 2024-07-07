@@ -1,3 +1,5 @@
+import styles from "./VirtualDistanceScene.module.css";
+
 export const ShrunkScene = () => {
   return (
     <>
@@ -163,6 +165,21 @@ export const ShrunkScene = () => {
             />
           </g>
         </g>
+      </g>
+      <g id="text">
+        <foreignObject x="440" y="100" width="340" height="600">
+          <div
+            xmlns="http://www.w3.org/1999/xhtml"
+            className={styles.instructionText}
+          >
+            As we peer of into the virtual distance you will see an infinite
+            number of reflected objects. We can calculate the percieved distance
+            from all of the reflections and the multiple angles of reflection
+            required to bounce the image off the mirrors and to the observers
+            eye. Select a reflection to see the distance and the angle of
+            reflection.
+          </div>
+        </foreignObject>
       </g>
     </>
   );

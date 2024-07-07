@@ -1,3 +1,5 @@
+import styles from "./VirtualDistanceScene.module.css";
+
 export const ObserverMoveScene = () => {
   return (
     <>
@@ -86,6 +88,17 @@ export const ObserverMoveScene = () => {
           stroke="#ADD8E6"
           stroke-width="10"
         />
+      </g>
+      <g id="text">
+        <foreignObject x="440" y="230" width="340" height="300">
+          <div
+            xmlns="http://www.w3.org/1999/xhtml"
+            className={styles.instructionText}
+          >
+            We can see how the percieved distance and the angle of reflection
+            change when we drag and move either the object or the observer
+          </div>
+        </foreignObject>
       </g>
     </>
   );

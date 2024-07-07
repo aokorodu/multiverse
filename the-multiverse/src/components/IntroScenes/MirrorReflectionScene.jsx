@@ -1,3 +1,5 @@
+import styles from "./VirtualDistanceScene.module.css";
+
 export const MirrorReflectionScene = () => {
   return (
     <>
@@ -102,6 +104,17 @@ export const MirrorReflectionScene = () => {
           stroke="#ADD8E6"
           stroke-width="10"
         />
+      </g>
+      <g id="text">
+        <foreignObject x="440" y="230" width="340" height="300">
+          <div
+            xmlns="http://www.w3.org/1999/xhtml"
+            className={styles.instructionText}
+          >
+            We can use the position of the object, it's reflection, and the
+            observer to calculate the point and angle of reflection.
+          </div>
+        </foreignObject>
       </g>
     </>
   );

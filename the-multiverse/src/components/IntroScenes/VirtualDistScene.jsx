@@ -1,3 +1,4 @@
+import styles from "./VirtualDistanceScene.module.css";
 export const VirtualDistScene = () => {
   return (
     <>
@@ -84,6 +85,18 @@ export const VirtualDistScene = () => {
           stroke="#ADD8E6"
           stroke-width="10"
         />
+      </g>
+      <g id="text">
+        <foreignObject x="440" y="230" width="340" height="300">
+          <div
+            xmlns="http://www.w3.org/1999/xhtml"
+            className={styles.instructionText}
+          >
+            The percieved distance from the observer to the virtual object (the
+            reflection) is determined by the positioning of the object and the
+            observer in the room
+          </div>
+        </foreignObject>
       </g>
     </>
   );

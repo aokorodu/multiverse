@@ -15,7 +15,7 @@ export const OpeningScene = ({ active = true }) => {
 
   const runAnimation = () => {
     console.log("zzz runAnimation");
-    tlRef.current = gsap.timeline({ delay: 1 });
+    tlRef.current = gsap.timeline({ delay: 0.3 });
     tlRef.current.to(object.current, { opacity: 1, duration: 1 });
     tlRef.current.to(observer.current, { opacity: 1, duration: 1 });
     tlRef.current.to(mirrors.current, { opacity: 1, duration: 1 });
