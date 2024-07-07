@@ -8,10 +8,11 @@ import { SettingsSlider } from "./components/SettingsSlider";
 function App() {
   useEffect(() => {}, []);
 
-  const [page, setPage] = useState(0);
+  const [page, setPage] = useState(-1);
   const [reflections, setReflections] = useState(2);
   const [roomWidth, setRoomWidth] = useState(200);
   const [roomHeight, setRoomHeight] = useState(200);
+
   const changePage = () => {
     let newPage = 0;
     switch (page) {
@@ -55,7 +56,7 @@ function App() {
   return (
     <>
       <div id="everything">
-        {page == 0 && <Intro />}
+        {page <= 0 && <Intro completedCallback={setPage} />}
         {page == 1 && (
           <TheScene
             numOfReflections={reflections}
@@ -91,9 +92,15 @@ function App() {
             </div>
           </>
         )}
-        <Button variant="outlined" onClick={changePage}>
-          <span>{getButtonText()}</span>
-        </Button>
+        <div className={page == -1 ? "disabled" : "enabled"}>
+          <Button
+            variant="contained"
+            onClick={changePage}
+            disabled={page == -1 ? true : false}
+          >
+            <span>{getButtonText()}</span>
+          </Button>
+        </div>
       </div>
     </>
   );

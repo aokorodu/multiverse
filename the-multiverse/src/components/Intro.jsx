@@ -3,13 +3,11 @@ import styles from "./Intro.module.css";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 
-const Intro = () => {
+const Intro = ({ completedCallback }) => {
   const stage = useRef(null);
-  const scene_1 = useRef(null);
-  const scene_2 = useRef(null);
-  const scene_3 = useRef(null);
   const sceneRefs = useRef([]);
   const [sceneNum, setSceneNum] = useState(0);
+  const finished = completedCallback;
 
   const addToScenes = (el) => {
     if (el && !sceneRefs.current.includes(el)) {
@@ -19,9 +17,14 @@ const Intro = () => {
 
   const nextPage = () => {
     const val = sceneNum + 1;
+
     setSceneNum((currentNum) => {
       return currentNum + 1;
     });
+
+    if (val == sceneRefs.current.length - 1) {
+      finished(0);
+    }
   };
 
   const prevPage = () => {

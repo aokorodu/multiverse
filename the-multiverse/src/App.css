@@ -3,3 +3,11 @@
   margin: 0 auto;
   padding: 0 2rem;
 }
+
+.disabled {
+  opacity: 0.3;
+}
+
+.enabled {
+  opacity: 1;
+}
