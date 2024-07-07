@@ -13,6 +13,10 @@ import { AngleGraphic } from "./AngleGraphic";
 import { AngleInfo } from "./AngleInfo";
 import { DistanceInfo } from "./DistanceInfo";
 import { ReflectionLine } from "./ReflectionLine";
+import Button from "@mui/material/Button";
+import ZoomInIcon from "@mui/icons-material/ZoomIn";
+import ZoomOutIcon from "@mui/icons-material/ZoomOut";
+import { ZoomButton } from "./ZoomButton";
 
 function TheScene({ numOfReflections = 6, roomWidth, roomHeight }) {
   const stage = useRef(null);
@@ -352,10 +356,10 @@ function TheScene({ numOfReflections = 6, roomWidth, roomHeight }) {
     console.log("vbh:", vbh);
     if (vbh == roomHeight) {
       vbh = svgHeight;
-      e.target.innerHTML = "+";
+      //e.target.innerHTML = <ZoomInIcon />;
     } else {
       vbh = roomHeight;
-      e.target.innerHTML = "-";
+      // e.target.innerHTML = <ZoomOutIcon />;
     }
     stage.current.setAttribute("viewBox", `0 0 ${roomWidth} ${vbh}`);
   };
@@ -363,14 +367,15 @@ function TheScene({ numOfReflections = 6, roomWidth, roomHeight }) {
   return (
     <>
       <div id="holder">
-        <button
+        <Button
+          variant="text"
           id="zoom"
           onClick={(e) => {
             zoom(e);
           }}
         >
-          +
-        </button>
+          <ZoomButton />
+        </Button>
         <div id="svgHolder">
           <svg
             ref={stage}

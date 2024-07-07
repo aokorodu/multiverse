@@ -2,6 +2,7 @@ import { useRef, useState } from "react";
 import styles from "./Intro.module.css";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
+import Button from "@mui/material/Button";
 
 const Intro = ({ completedCallback }) => {
   const stage = useRef(null);
@@ -55,9 +56,13 @@ const Intro = ({ completedCallback }) => {
   return (
     <>
       <div className={styles.introHolder}>
-        <button onClick={prevPage} disabled={sceneNum == 0 ? true : false}>
-          prev
-        </button>
+        <Button
+          variant="outlined"
+          onClick={prevPage}
+          disabled={sceneNum == 0 ? true : false}
+        >
+          ≪
+        </Button>
 
         <svg ref={stage} width={"100%"} height={"100%"} viewBox={`0 0 800 610`}>
           <g id="Intro">
@@ -647,12 +652,13 @@ const Intro = ({ completedCallback }) => {
           </g>
         </svg>
         {
-          <button
+          <Button
+            variant="outlined"
             onClick={nextPage}
             disabled={sceneNum == sceneRefs.current.length - 1 ? true : false}
           >
-            next
-          </button>
+            ≫
+          </Button>
         }
       </div>
     </>
