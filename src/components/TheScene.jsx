@@ -354,10 +354,8 @@ function TheScene({ numOfReflections = 6, roomWidth, roomHeight }) {
     console.log("vbh:", vbh);
     if (vbh == roomHeight) {
       vbh = svgHeight;
-      //e.target.innerHTML = <ZoomInIcon />;
     } else {
       vbh = roomHeight;
-      // e.target.innerHTML = <ZoomOutIcon />;
     }
     stage.current.setAttribute("viewBox", `0 0 ${roomWidth} ${vbh}`);
   };
@@ -411,7 +409,6 @@ function TheScene({ numOfReflections = 6, roomWidth, roomHeight }) {
               {getMeshMirrors()}
 
               <gridHelper args={[200, 100, "#383838", "#383838"]} />
-              {/* <OrbitControls /> */}
             </Canvas>
             <div id="statsHolder">
               {getAngleInfo()}

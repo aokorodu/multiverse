@@ -14,7 +14,6 @@ export const SettingsSlider = ({ label, val, min, max, callback }) => {
           valueLabelDisplay="auto"
           onChange={(e) => {
             const val = e.target.value;
-            // setReflections(val);
             callback(val);
           }}
         />

@@ -20,8 +20,6 @@ const Intro = ({ completedCallback }) => {
   const [sceneNum, setSceneNum] = useState(0);
   const finished = completedCallback;
 
-  // scene 1 animation objects
-
   const addToScenes = (el) => {
     if (el && !sceneRefs.current.includes(el)) {
       sceneRefs.current.push(el);
