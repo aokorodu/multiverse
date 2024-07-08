@@ -14,8 +14,6 @@ import { AngleInfo } from "./AngleInfo";
 import { DistanceInfo } from "./DistanceInfo";
 import { ReflectionLine } from "./ReflectionLine";
 import Button from "@mui/material/Button";
-import ZoomInIcon from "@mui/icons-material/ZoomIn";
-import ZoomOutIcon from "@mui/icons-material/ZoomOut";
 import { ZoomButton } from "./ZoomButton";
 
 function TheScene({ numOfReflections = 6, roomWidth, roomHeight }) {
@@ -197,7 +195,7 @@ function TheScene({ numOfReflections = 6, roomWidth, roomHeight }) {
       ];
       let index = 0;
       let totalDx = Math.abs(ptArray[0].x - ptArray[ptArray.length - 1].x);
-      // console.log("totalDx < xlength?", totalDx, xlength);
+
       while (totalDx < xlength) {
         let xpos = ptArray[ptArray.length - 1].x + dx;
         const newDist = Math.abs(xpos - ptArray[0].x);

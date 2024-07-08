@@ -1,3 +1,4 @@
+import styles from "./DistanceInfo.module.css";
 export const DistanceInfo = ({ distance, roomWidth, roomHeight }) => {
   const mystyle = {
     fontSize: "10px",
@@ -7,8 +8,11 @@ export const DistanceInfo = ({ distance, roomWidth, roomHeight }) => {
   const h = roomHeight / 10;
   return (
     <>
-      <div>Perceived distance to reflection: {Math.round(distance / 10)}'</div>
-      <div style={mystyle}>{`* Room dimensions: ${w}' x ${h}`}</div>
+      <div className={styles.mainText}>
+        Perceived distance to reflection:{" "}
+        <span className={styles.infoText}>{Math.round(distance / 10)}'</span>
+      </div>
+      <div style={mystyle}>{`* Room dimensions: ${w}' x ${h}'`}</div>
     </>
   );
 };

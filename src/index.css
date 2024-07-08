@@ -61,10 +61,8 @@ svg {
 }
 
 #statsHolder {
-  position: absolute;
-  top: 5px;
-  left: 10px;
   color: #ff0000;
+  margin: 1rem 0;
 }
 
 #svgHolder {
