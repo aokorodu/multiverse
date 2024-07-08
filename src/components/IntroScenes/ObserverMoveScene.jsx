@@ -1,9 +1,13 @@
 import styles from "./VirtualDistanceScene.module.css";
-
+import { AngleGraphic } from "../AngleGraphic";
 export const ObserverMoveScene = () => {
+  const demoPoint = { x: 165, y: -305 };
   return (
     <>
       {" "}
+      <g transform="scale(1 -1)">
+        <AngleGraphic angle={60} point={demoPoint} />
+      </g>
       <g id="line_to_reflection" opacity="0.6">
         <line
           id="Line 6"

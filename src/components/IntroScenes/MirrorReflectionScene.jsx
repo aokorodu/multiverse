@@ -1,8 +1,14 @@
 import styles from "./VirtualDistanceScene.module.css";
+import { AngleGraphic } from "../AngleGraphic";
 
 export const MirrorReflectionScene = () => {
+  const demoPoint = { x: 196, y: -305 };
   return (
     <>
+      <g transform="scale(1 -1)">
+        <AngleGraphic angle={45} point={demoPoint} />
+      </g>
+
       <g id="line_to_reflection" opacity="0.6">
         <line
           id="Line 6"
@@ -23,6 +29,7 @@ export const MirrorReflectionScene = () => {
           stroke-opacity="0.7"
         />
       </g>
+
       <g id="line_to_mirror">
         <line
           id="Line 8"

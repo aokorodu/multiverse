@@ -45,6 +45,15 @@ export const VirtualDistScene = () => {
         </g>
         <g id="objects">
           <g id="observer">
+            <text
+              x="297"
+              y="490"
+              fill="white"
+              textAnchor="middle"
+              dominantBaseline={"hanging"}
+            >
+              observer
+            </text>
             <g id="Ellipse 51">
               <circle cx="297" cy="450.002" r="25" fill="#FCFCFC" />
               <circle cx="297" cy="450.002" r="25" fill="#FCFCFC" />
@@ -66,6 +75,15 @@ export const VirtualDistScene = () => {
               d="M112.035 471.023C111.575 471.82 110.425 471.82 109.965 471.023L86.1619 429.794C85.7019 428.998 86.2769 428.002 87.1968 428.002L134.803 428.002C135.723 428.002 136.298 428.998 135.838 429.794L112.035 471.023Z"
               fill="#F10202"
             />
+            <text
+              x="110"
+              y="490"
+              fill="white"
+              textAnchor="middle"
+              dominantBaseline={"hanging"}
+            >
+              object
+            </text>
           </g>
         </g>
       </g>
@@ -76,6 +94,15 @@ export const VirtualDistScene = () => {
           fill="#F10202"
         />
       </g>
+      <text
+        x="110"
+        y="100"
+        fill="white"
+        textAnchor="middle"
+        dominantBaseline={"hanging"}
+      >
+        reflection
+      </text>
       <g id="mirror_3">
         <line
           id="Line 5_3"
